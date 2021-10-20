@@ -13,7 +13,7 @@ namespace TrincaChu.Models
         public string Observations { get; set; }
         public float TotalValue { get; set; }
         public float TotalCollected { get; set; }
-        public ICollection<Attendee> Attendees { get; set; }
-        public ICollection<Item> Itens { get; set; }
+        public ICollection<EventAttendees> Attendees { get; set; }
+        public ICollection<EventItens> Itens { get; set; }
     }
 }
