@@ -1,26 +1,32 @@
 <!-- TODO improve loading info by adding some icons to show that something is being loaded -->
 <div nz-row>
-  <div nz-col nzSm="6">
+  <div nz-col nzMd="6" nzXs="8">
     <h3 class="text-white">TrincaChu</h3>
     <h6 class="text-white">{{user.name}} {{user.lastName}}</h6>
   </div>
-  <div nz-col nzSm="12">
-    <ul nz-menu nzMode="horizontal" nzTheme="dark">
-      <li nz-menu-item nzMatchRouter>
-        <a (click)="addBarbecue()">Adicionar Churrasco</a>
-      </li>
-      <li nz-menu-item nzMatchRouter>
-        <a (click)="getAll()">Próximos Churrascos</a>
-      </li>
-      <li nz-menu-item nzMatchRouter>
-        <a (click)="getEventsIWillAttend()">Presença Confirmada</a>
-      </li>
-      <li nz-menu-item nzMatchRouter>
-        <a (click)="getMyEvents()">Meus Churrascos</a>
-      </li>
-    </ul>
+  <div nz-col nzXs="14">
+    <div class="wrapper">
+      <button (click)="toggleCollapsed()" *ngIf="mobile$" nz-button nzType="primary">
+        <i [nzType]="isCollapsed  ? 'menu-unfold' : 'menu-fold'" nz-icon></i>
+      </button>
+      <ul [hidden]="isCollapsed" [nzInlineCollapsed]="isCollapsed" [nzMode]="mobile$?'inline':'horizontal'" nz-menu
+          nzTheme="dark">
+        <li nz-menu-item>
+          <a (click)="addBarbecue()">Adicionar Churrasco</a>
+        </li>
+        <li nz-menu-item nzSelected>
+          <a (click)="getAll()">Próximos Churrascos</a>
+        </li>
+        <li nz-menu-item>
+          <a (click)="getEventsIWillAttend()">Presença Confirmada</a>
+        </li>
+        <li nz-menu-item>
+          <a (click)="getMyEvents()">Meus Churrascos</a>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div [nzOffset]="" nz-col nzSm="6">
+  <div [nzOffset]="" nz-col nzMd="6" nzXs="2">
     <button [nzDropdownMenu]="menu2" nz-button nz-dropdown nzPlacement="bottomRight" nzShape="circle">
       <i nz-icon nzType="user"></i>
     </button>
@@ -41,4 +47,4 @@
   </nz-dropdown-menu>
 </div>
 
-<app-item-add [isVisible]="isVisible" (saved)="addBarbecue()"></app-item-add>
+<app-item-add (saved)="addBarbecue()" [isVisible]="isVisible"></app-item-add>

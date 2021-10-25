@@ -85,7 +85,7 @@ namespace TrincaChu.Controllers
                             atendeeAdmin.Attendee,
                             attendeeTotal = attendeesCount
                         }
-                    );
+                    ).Distinct();
 
                 return Ok(myEvents);
             }
@@ -123,7 +123,7 @@ namespace TrincaChu.Controllers
                             atendeeAdmin.Attendee,
                             attendeeTotal = attendeesCount
                         }
-                    );
+                    ).Distinct();
 
                 return Ok(myEvents);
             }
@@ -161,7 +161,7 @@ namespace TrincaChu.Controllers
                             atendeeAdmin.Attendee,
                             attendeeTotal = attendeesCount
                         }
-                    );
+                    ).Distinct();
 
                 return Ok(myEvents);
             }
@@ -200,7 +200,7 @@ namespace TrincaChu.Controllers
                             atendeeAdmin.Attendee,
                             attendeeTotal = attendeesCount
                         }
-                    );
+                    ).Distinct();
 
                 return Ok(myEvents);
             }

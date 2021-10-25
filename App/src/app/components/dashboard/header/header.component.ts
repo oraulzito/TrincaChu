@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SessionService} from '../../../state/session/session.service';
 import {UserQuery} from "../../../state/user/user.query";
 import {EventModelService} from "../../../state/event/event.service";
+import {UiQuery} from "../../../state/ui/ui.query";
 
 
 @Component({
@@ -12,17 +13,20 @@ import {EventModelService} from "../../../state/event/event.service";
 export class HeaderComponent implements OnInit, OnDestroy {
   user = this.userQuery.getValue();
   isVisible = false;
+  mobile$ = false;
+  isCollapsed = true;
 
   constructor(
     private sessionService: SessionService,
     private eventService: EventModelService,
-    private userQuery: UserQuery
+    private userQuery: UserQuery,
+    private uiQuery: UiQuery
   ) {
   }
 
   // tslint:disable-next-line:typedef
   ngOnInit() {
-
+    this.uiQuery.select('mobile').subscribe(m => this.mobile$ = m);
   }
 
   addBarbecue() {
@@ -41,15 +45,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.eventService.getMyEvents().subscribe();
   }
 
-  // tslint:disable-next-line:typedef
+
+  toggleCollapsed(): void {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
   logout() {
     this.sessionService.logout();
   }
-
-  handleCancel(){
-  }
-
-  handleOk(){}
 
   ngOnDestroy(): void {
 
