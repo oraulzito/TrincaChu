@@ -23,10 +23,12 @@ import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzInputModule} from 'ng-zorro-antd/input';
 import {NzSpinModule} from "ng-zorro-antd/spin";
 import {NzModalModule} from "ng-zorro-antd/modal";
-import {ItemCardComponent} from "../barbecue/card/item-card.component";
-import { DashboardPanelComponent } from './dashboard-panel/dashboard-panel.component';
-import {ItemAddComponent} from "../barbecue/add/item-add.component";
+import {ItemCardComponent} from "../item/card/item-card.component";
+import {DashboardPanelComponent} from './dashboard-panel/dashboard-panel.component';
+import {ItemAddComponent} from "../item/add/item-add.component";
 import {NzRadioModule} from "ng-zorro-antd/radio";
+import {ItemEditComponent} from "../item/edit/item-edit.component";
+import {NzCollapseModule} from "ng-zorro-antd/collapse";
 
 @NgModule({
   imports: [
@@ -48,7 +50,14 @@ import {NzRadioModule} from "ng-zorro-antd/radio";
     NzInputModule,
     NzSpinModule,
     NzModalModule,
-    NzRadioModule
+    NzRadioModule,
+    NzCollapseModule,
+    NzInputModule,
+    NzModalModule,
+    ReactiveFormsModule,
+    NzFormModule,
+    NzRadioModule,
+    NzCollapseModule,
   ],
   declarations: [
     DashboardComponent,
@@ -59,6 +68,7 @@ import {NzRadioModule} from "ng-zorro-antd/radio";
     ItemCardComponent,
     DashboardPanelComponent,
     ItemAddComponent,
+    ItemEditComponent,
   ],
   exports: [
     DashboardComponent

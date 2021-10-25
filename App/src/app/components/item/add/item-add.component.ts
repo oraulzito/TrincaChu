@@ -33,14 +33,6 @@ export class ItemAddComponent implements OnInit {
     });
   }
 
-  edit(id) {
-    this.eventService.update(id, this.itemForm.value).subscribe();
-  }
-
-  delete(id) {
-    this.eventService.remove(id);
-  }
-
   save() {
     return this.eventService.add(this.itemForm.value).subscribe(
       r => {

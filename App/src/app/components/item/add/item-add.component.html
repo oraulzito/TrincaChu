@@ -1,5 +1,5 @@
 <nz-modal (nzOnCancel)="cancel()"
-          (nzOnOk)="item ?edit(item.id): save()"
+          (nzOnOk)="save()"
           [(nzVisible)]="isVisible"
           nzTitle="Adicionar um churrasco">
   <ng-container *nzModalContent>
@@ -8,18 +8,16 @@
       <nz-form-item>
         <nz-input-group>
           <label>Descrição</label>
-          <input [ngModel]="item? item.description:''"
-                 formControlName="description"
-                 placeholder="Descrição" type="text" nz-input>
+          <input formControlName="description"
+                 nz-input placeholder="Descrição" type="text">
         </nz-input-group>
       </nz-form-item>
       <!--   observations -->
       <nz-form-item>
         <nz-input-group>
           <label>Observações</label>
-          <input [ngModel]="item? item.observations:''"
-                 formControlName="observations"
-                 placeholder="Observações" type="text" nz-input>
+          <input formControlName="observations"
+                 nz-input placeholder="Observações" type="text">
         </nz-input-group>
       </nz-form-item>
       <!--   willYouConsumeAlcoholicDrink -->
@@ -39,28 +37,19 @@
       <nz-form-item>
         <nz-input-group>
           <label>Quando ocorrerá?</label>
-          <input [ngModel]="item? item.whenWillHappen:''"
-                 formControlName="whenWillHappen"
-                 type="datetime-local" nz-input>
+          <input formControlName="whenWillHappen"
+                 nz-input type="datetime-local">
         </nz-input-group>
       </nz-form-item>
       <!--   confirmPresenceUntilDateTime -->
       <nz-form-item>
         <nz-input-group>
           <label>Confirmar presença até quando?</label>
-          <input [ngModel]="item? item.confirmPresenceUntilDateTime:''"
-                 formControlName="confirmPresenceUntilDateTime"
-                 type="datetime-local" nz-input>
+          <input formControlName="confirmPresenceUntilDateTime"
+                 nz-input type="datetime-local">
         </nz-input-group>
       </nz-form-item>
     </form>
-
-    <ng-template [ngIf]="item">
-      <button (click)="delete(item.id)" class="mx-2" nz-button nzDanger nzType="primary">
-        <i nz-icon nzTheme="outline" nzType="delete"></i>
-        Deletar
-      </button>
-    </ng-template>
   </ng-container>
 </nz-modal>
 

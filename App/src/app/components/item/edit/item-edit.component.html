@@ -1,0 +1,80 @@
+<nz-modal (nzOnCancel)="cancel()"
+          (nzOnOk)="item ?edit(item.id): cancel()"
+          [(nzVisible)]="isVisible"
+          nzTitle="Editar o churrasco">
+  <ng-container *nzModalContent>
+    <nz-collapse nzAccordion>
+      <nz-collapse-panel [nzHeader]="'Editar Evento'">
+        <form [formGroup]="itemEditForm" class="login-form p-3" nz-form>
+          <!--   description -->
+          <nz-form-item>
+            <nz-input-group>
+              <label>Descrição</label>
+              <input formControlName="description"
+                     nz-input placeholder="Descrição" type="text">
+            </nz-input-group>
+          </nz-form-item>
+          <!--   observations -->
+          <nz-form-item>
+            <nz-input-group>
+              <label>Observações</label>
+              <input formControlName="observations"
+                     nz-input placeholder="Observações" type="text">
+            </nz-input-group>
+          </nz-form-item>
+          <!--   whenWillHappen -->
+          <nz-form-item>
+            <nz-input-group>
+              <label>Quando ocorrerá?</label>
+              <input formControlName="whenWillHappen"
+                     nz-input type="datetime-local">
+            </nz-input-group>
+          </nz-form-item>
+          <!--   confirmPresenceUntilDateTime -->
+          <nz-form-item>
+            <nz-input-group>
+              <label>Confirmar presença até quando?</label>
+              <input formControlName="confirmPresenceUntilDateTime"
+                     nz-input type="datetime-local">
+            </nz-input-group>
+          </nz-form-item>
+        </form>
+      </nz-collapse-panel>
+      <nz-collapse-panel [nzHeader]="'Adicionar Itens'">
+        <form [formGroup]="itemAddForm" class="login-form p-3" nz-form>
+          <!--   willYouConsumeAlcoholicDrink -->
+          <nz-form-item>
+            <nz-input-group>
+              <label>Irá consumir bebidas alcolicas?</label>
+              <br>
+              <nz-radio-group
+                formControlName="willYouConsumeAlcoholicDrink"
+                nzButtonStyle="solid">
+                <label nz-radio-button nzValue="true">Sim</label>
+                <label nz-radio-button nzValue="false">Não</label>
+              </nz-radio-group>
+            </nz-input-group>
+          </nz-form-item>
+        </form>
+      </nz-collapse-panel>
+      <nz-collapse-panel [nzHeader]="'Adicionar Participantes'">
+        <form [formGroup]="attendeeAddForm" class="login-form p-3" nz-form>
+          <!--   willYouConsumeAlcoholicDrink -->
+          <nz-form-item>
+            <nz-input-group>
+              <label>Irá consumir bebidas alcolicas?</label>
+              <br>
+              <nz-radio-group
+                formControlName="willYouConsumeAlcoholicDrink"
+                nzButtonStyle="solid">
+                <label nz-radio-button nzValue="true">Sim</label>
+                <label nz-radio-button nzValue="false">Não</label>
+              </nz-radio-group>
+            </nz-input-group>
+          </nz-form-item>
+        </form>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </ng-container>
+</nz-modal>
+
