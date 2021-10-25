@@ -4,10 +4,10 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {DashboardRoutingModule} from './dashboard-routing.module';
 import {DashboardComponent} from './dashboard.component';
-import {HeaderComponent} from './dashboard-desktop/header/header.component';
+import {HeaderComponent} from './header/header.component';
 import {DashboardMobileComponent} from './dashboard-mobile/dashboard-mobile.component';
 import {DashboardDesktopComponent} from './dashboard-desktop/dashboard-desktop.component';
-import {FooterComponent} from "./dashboard-mobile/footer/footer.component";
+import {FooterComponent} from "./footer/footer.component";
 
 import {NzCardModule} from 'ng-zorro-antd/card';
 import {NzGridModule} from 'ng-zorro-antd/grid';
@@ -24,6 +24,9 @@ import {NzInputModule} from 'ng-zorro-antd/input';
 import {NzSpinModule} from "ng-zorro-antd/spin";
 import {NzModalModule} from "ng-zorro-antd/modal";
 import {ItemCardComponent} from "../barbecue/card/item-card.component";
+import { DashboardPanelComponent } from './dashboard-panel/dashboard-panel.component';
+import {ItemAddComponent} from "../barbecue/add/item-add.component";
+import {NzRadioModule} from "ng-zorro-antd/radio";
 
 @NgModule({
   imports: [
@@ -44,7 +47,8 @@ import {ItemCardComponent} from "../barbecue/card/item-card.component";
     NzFormModule,
     NzInputModule,
     NzSpinModule,
-    NzModalModule
+    NzModalModule,
+    NzRadioModule
   ],
   declarations: [
     DashboardComponent,
@@ -53,6 +57,8 @@ import {ItemCardComponent} from "../barbecue/card/item-card.component";
     DashboardDesktopComponent,
     FooterComponent,
     ItemCardComponent,
+    DashboardPanelComponent,
+    ItemAddComponent,
   ],
   exports: [
     DashboardComponent

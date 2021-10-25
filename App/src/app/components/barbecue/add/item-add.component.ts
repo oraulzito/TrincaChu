@@ -1,59 +1,56 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder} from "@angular/forms";
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {EventModelService} from "../../../state/event/event.service";
+import {EventModel} from "../../../state/event/event.model";
 
 
 @Component({
-  selector: 'app-add',
+  selector: 'app-item-add',
   templateUrl: './item-add.component.html',
   styleUrls: ['./item-add.component.css']
 })
 export class ItemAddComponent implements OnInit {
+  itemForm: FormGroup;
+
+  @Output() saved = new EventEmitter();
+  @Input() item?: EventModel;
+  @Input() isVisible = false;
 
   constructor(
     private fb: FormBuilder,
+    private eventService: EventModelService,
   ) {
   }
 
   ngOnInit() {
 
-    // this.releaseForm = this.fb.group({
-    //   installment_value: new FormControl(),
-    //   value: new FormControl(),
-    //   description: new FormControl(),
-    //   date_release: new FormControl(),
-    //   is_release_paid: new FormControl(),
-    //   category_id: new FormControl(),
-    //   repeat_times: new FormControl(),
-    //   place: new FormControl(),
-    //   type: new FormControl(),
-    //   card: new FormControl(this.card)
-    // });
+    this.itemForm = this.fb.group({
+      whenWillHappen: new FormControl(''),
+      confirmPresenceUntilDateTime: new FormControl(''),
+      description: new FormControl(''),
+      observations: new FormControl(''),
+      willYouConsumeAlcoholicDrink: new FormControl(''),
+    });
   }
 
+  edit(id) {
+    this.eventService.update(id, this.itemForm.value).subscribe();
+  }
 
-  // tslint:disable-next-line:typedef
-  // editRelease(id) {
-  //   this.releaseService.update(id, this.releaseForm.value).subscribe();
-  // }
-  //
-  // // tslint:disable-next-line:typedef
-  // deleteRelease(id) {
-  //   this.releaseService.remove(id);
-  // }
-  //
-  // // tslint:disable-next-line:typedef
-  // saveRelease() {
-  //   return this.releaseService.add(this.releaseForm.value, this.card).subscribe(
-  //     r => {
-  //       this.saved.emit(false);
-  //     },
-  //     (e) => this.saved.emit(true)
-  //   );
-  // }
-  //
-  // // tslint:disable-next-line:typedef
-  // cancelRelease() {
-  //   this.saved.emit(true);
-  // }
+  delete(id) {
+    this.eventService.remove(id);
+  }
+
+  save() {
+    return this.eventService.add(this.itemForm.value).subscribe(
+      r => {
+        this.saved.emit(false);
+      }
+    );
+  }
+
+  cancel() {
+    this.saved.emit(true);
+  }
 
 }

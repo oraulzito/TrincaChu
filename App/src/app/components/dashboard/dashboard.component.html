@@ -1,6 +1,10 @@
 <ng-template [ngIf]="mobile$">
-  <app-dashboard-mobile></app-dashboard-mobile>
+  <app-dashboard-mobile>
+    <app-dashboard-panel></app-dashboard-panel>
+  </app-dashboard-mobile>
 </ng-template>
 <ng-template [ngIf]="!mobile$">
-  <app-dashboard-desktop></app-dashboard-desktop>
+  <app-dashboard-desktop>
+    <app-dashboard-panel></app-dashboard-panel>
+  </app-dashboard-desktop>
 </ng-template>

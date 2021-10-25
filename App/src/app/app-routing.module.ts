@@ -7,7 +7,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./components/welcome/welcome.module').then(m => m.WelcomeModule),
-    // canActivate: [AuthenticationGuard]
+    canActivate: [AuthenticationGuard]
   },
   {
     path: 'events',

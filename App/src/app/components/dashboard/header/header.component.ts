@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {SessionService} from '../../../../state/session/session.service';
-import {UserQuery} from "../../../../state/user/user.query";
-import {EventModelService} from "../../../../state/event/event.service";
+import {SessionService} from '../../../state/session/session.service';
+import {UserQuery} from "../../../state/user/user.query";
+import {EventModelService} from "../../../state/event/event.service";
 
 
 @Component({
@@ -11,6 +11,7 @@ import {EventModelService} from "../../../../state/event/event.service";
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   user = this.userQuery.getValue();
+  isVisible = false;
 
   constructor(
     private sessionService: SessionService,
@@ -22,6 +23,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   // tslint:disable-next-line:typedef
   ngOnInit() {
 
+  }
+
+  addBarbecue() {
+    this.isVisible = !this.isVisible;
   }
 
   getAll() {
@@ -40,6 +45,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logout() {
     this.sessionService.logout();
   }
+
+  handleCancel(){
+  }
+
+  handleOk(){}
 
   ngOnDestroy(): void {
 

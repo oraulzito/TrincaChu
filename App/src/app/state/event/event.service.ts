@@ -85,13 +85,10 @@ export class EventModelService {
       confirmPresenceUntilDateTime: form.confirmPresenceUntilDateTime,
       description: form.description,
       observations: form.observations,
-      totalValue: 0,
-      totalCollected: form.totalCollected,
-      totalPerPersonWithAlcoholicDrink: 0,
-      totalPerPersonWithoutAlcoholicDrink: 0,
+      willYouConsumeAlcoholicDrink: form.willYouConsumeAlcoholicDrink,
     };
 
-    return this.http.post<[EventModel]>('/api/event', body, this.uiService.httpHeaderOptions()).pipe(
+    return this.http.post('/api/event', body, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
       tap(entities => this.eventStore.add(entities)),
       catchError(error => throwError(error))

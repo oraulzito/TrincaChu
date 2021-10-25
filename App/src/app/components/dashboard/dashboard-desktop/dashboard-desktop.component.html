@@ -1,9 +1,7 @@
 <div class="h-100 vw-85">
   <app-header></app-header>
   <hr class="text-white w-100">
-  <div class="vh-75 w-100 overflow-auto" nz-row>
-    <ng-template [ngForOf]="selectedEvents" let-ev let-i="index" ngFor>
-      <app-item-card [eventModel]="ev" nz-col nzMd="8" nzSm="12" nzXl="6" nzXs="24"></app-item-card>
-    </ng-template>
+  <div class="vh-75 w-100 overflow-auto">
+    <ng-content></ng-content>
   </div>
 </div>

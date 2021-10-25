@@ -7,17 +7,20 @@
   <div nz-col nzSm="12">
     <ul nz-menu nzMode="horizontal" nzTheme="dark">
       <li nz-menu-item nzMatchRouter>
-        <a (click)="getAll()">Próximos eventos</a>
+        <a (click)="addBarbecue()">Adicionar Churrasco</a>
+      </li>
+      <li nz-menu-item nzMatchRouter>
+        <a (click)="getAll()">Próximos Churrascos</a>
       </li>
       <li nz-menu-item nzMatchRouter>
         <a (click)="getEventsIWillAttend()">Presença Confirmada</a>
       </li>
       <li nz-menu-item nzMatchRouter>
-        <a (click)="getMyEvents()">Meus eventos</a>
+        <a (click)="getMyEvents()">Meus Churrascos</a>
       </li>
     </ul>
   </div>
-  <div nz-col nzSm="6" [nzOffset]="">
+  <div [nzOffset]="" nz-col nzSm="6">
     <button [nzDropdownMenu]="menu2" nz-button nz-dropdown nzPlacement="bottomRight" nzShape="circle">
       <i nz-icon nzType="user"></i>
     </button>
@@ -37,3 +40,5 @@
     </ul>
   </nz-dropdown-menu>
 </div>
+
+<app-item-add [isVisible]="isVisible" (saved)="addBarbecue()"></app-item-add>
