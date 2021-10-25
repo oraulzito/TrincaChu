@@ -9,16 +9,25 @@ namespace TrincaChu.Services
 {
     public class AuthenticatorService
     {
-        private static readonly JwtSecurityTokenHandler _tokenHandler = new();
+        private static JwtSecurityTokenHandler _tokenHandler = new();
 
-        public static string GenerateToken(User user)
+        public AuthenticatorService()
+        {
+        }
+
+        public bool CheckPassword(string password, User user)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, user.Password);
+        }
+
+        public string GenerateToken(User user)
         {
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.Name),
                     new Claim(ClaimTypes.Email, user.Email)
                 }),
@@ -27,7 +36,7 @@ namespace TrincaChu.Services
                     SecurityAlgorithms.HmacSha256Signature)
             };
             var token = _tokenHandler.CreateToken(tokenDescriptor);
-            
+
             return _tokenHandler.WriteToken(token);
         }
     }

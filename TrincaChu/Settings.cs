@@ -2,6 +2,6 @@
 {
     public static class Settings
     {
-        public static string Secret = "dUWU3BUQHZFN4*Rmey3bvNGj$86W@K2Xt2RLCmqeS3xLRxPtAYgnM&UqcZcLPxjo";
+        public static string Secret = "S5g4hsT7fv9WjFCUFMJrCDZw2USLNqJp44sdsFiKBDzc9LwmzFpLyrTZMoy4NVFZ";
     }
 }

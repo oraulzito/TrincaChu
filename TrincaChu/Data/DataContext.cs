@@ -13,7 +13,6 @@ namespace TrincaChu.Data
         public DbSet<Item> Item { get; set; }
         public DbSet<Event> Event { get; set; }
         public DbSet<EventAttendees> EventAttendees { get; set; }
-        public DbSet<EventItens> EventItens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -21,9 +20,23 @@ namespace TrincaChu.Data
 
             modelBuilder.Entity<EventAttendees>()
                 .HasKey(bc => new { bc.EventId, bc.AttendeeId });
+            modelBuilder.Entity<EventAttendees>()
+                .HasOne(e => e.Event)
+                .WithMany(ea => ea.Attendees)
+                .HasForeignKey(ei => ei.EventId);
+            modelBuilder.Entity<EventAttendees>()
+                .HasOne(a => a.Attendee)
+                .WithMany(ea => ea.Events)
+                .HasForeignKey(ai => ai.AttendeeId);
 
-            modelBuilder.Entity<EventItens>()
-                .HasKey(bc => new { bc.EventId, bc.ItemId });
+            modelBuilder.Entity<Item>()
+                .HasOne(e => e.Event)
+                .WithMany(ea => ea.Itens)
+                .HasForeignKey(ei => ei.EventId);
+            modelBuilder.Entity<Event>()
+                .HasMany(e => e.Itens)
+                .WithOne(ea => ea.Event)
+                .HasForeignKey(ei => ei.EventId);
         }
     }
 }

@@ -1,13 +1,13 @@
-﻿using System;
+﻿// using System;
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TrincaChu.Data;
 using TrincaChu.Models;
+using TrincaChu.Repository;
+using TrincaChu.Services;
 
 namespace TrincaChu.Controllers
 {
@@ -16,54 +16,73 @@ namespace TrincaChu.Controllers
     [Authorize]
     public class ItemController : Controller
     {
-        private readonly DataContext _context;
+        private readonly EventService _eventService;
+        private readonly ItemService _itemService;
+        private readonly UnitOfWork _uow;
 
-        public ItemController(DataContext context)
+        public ItemController(
+            UnitOfWork uow,
+            ItemService itemService,
+            EventService eventService
+        )
         {
-            _context = context;
+            _uow = uow;
+            _itemService = itemService;
+            _eventService = eventService;
         }
 
-        [HttpGet]
-        public ActionResult<ICollection<Item>> Get()
-        {
-            try
-            {
-                return _context.Item.Where(i => ClaimTypes.NameIdentifier.Equals(i.CreatorId.ToString())).ToList();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
 
         [HttpGet("{id}")]
-        public ActionResult<Item> Get(long id)
+        public ActionResult<ICollection<EventAttendees>> GetItem(long id)
         {
             try
             {
-                return _context.Item.FirstOrDefault(i =>
-                    ClaimTypes.NameIdentifier.Equals(i.CreatorId.ToString()) && i.Id == id);
+                var item = _uow.ItemRepository
+                    .GetAll(ea => ea.Id == id);
+
+                return Ok(item);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return new BadRequestObjectResult(new { error = ex.Message });
             }
         }
+
+        [HttpGet("event/{id}")]
+        public ActionResult<ICollection<EventAttendees>> GetEventItens(long id)
+        {
+            try
+            {
+                var eventItens = _uow.ItemRepository
+                    .GetAll(ea => ea.EventId == id);
+
+                return Ok(eventItens);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new { error = ex.Message });
+            }
+        }
+
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] Item item)
         {
             try
             {
-                _context.Item.Add(item);
+                _uow.ItemRepository.Add(item);
 
-                await _context.SaveChangesAsync();
+                _uow.Commit();
+
+                _eventService.UpdateCalculateValues(item.EventId);
+
+                _uow.Dispose();
 
                 return NoContent();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return new BadRequestObjectResult(new { message = ex.Message });
             }
         }
 
@@ -72,21 +91,19 @@ namespace TrincaChu.Controllers
         {
             try
             {
-                var i = _context.Item.FirstOrDefault(i =>
-                    ClaimTypes.NameIdentifier.Equals(i.CreatorId.ToString()) && i.Id == id);
+                _uow.ItemRepository.Update(item);
 
-                if (i != null)
-                {
-                    _context.Entry(item).State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
-                    return NoContent();
-                }
+                _uow.Commit();
 
-                return BadRequest("You don't have the permission to do this!");
+                _eventService.UpdateCalculateValues(item.EventId);
+                
+                _uow.Dispose();
+
+                return NoContent();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return new BadRequestObjectResult(new { message = ex.Message });
             }
         }
 
@@ -95,18 +112,21 @@ namespace TrincaChu.Controllers
         {
             try
             {
-                var item = _context.Item.FirstOrDefault(i =>
-                    ClaimTypes.NameIdentifier.Equals(i.CreatorId.ToString()) && i.Id == id);
+                var item = _uow.ItemRepository.Get(i => i.Id == id);
 
-                _context.Item.Remove(item);
+                _uow.ItemRepository.Delete(item);
 
-                await _context.SaveChangesAsync();
+                _uow.Commit();
+
+                _eventService.UpdateCalculateValues(item.EventId);
+
+                _uow.Dispose();
 
                 return NoContent();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return new BadRequestObjectResult(new { message = ex.Message });
             }
         }
     }

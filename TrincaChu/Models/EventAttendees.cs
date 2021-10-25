@@ -1,13 +1,24 @@
-﻿namespace TrincaChu.Models
+﻿using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
+
+namespace TrincaChu.Models
 {
     public class EventAttendees
     {
-        public long EventId { get; set; }
-        public Event Event { get; }
-        public long AttendeeId { get; set; }
-        public User Attendee { get; }
+        public EventAttendees()
+        {
+            Event = new Event();
+            Attendee = new User();
+        }
 
+        [Required] public long EventId { get; set; }
+        [JsonIgnore] public virtual Event Event { get; set; }
+
+        [Required] public long AttendeeId { get; set; }
+        [JsonIgnore] public virtual User Attendee { get; set; }
+        
         public bool Admin { get; set; }
-        public bool Confirmed { get; set; }
+        [Required] public bool ConsumeAlcoholicDrink { get; set; }
+        [Required] public bool Paid { get; set; }
     }
 }

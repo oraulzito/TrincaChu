@@ -26,6 +26,9 @@ namespace TrincaChu.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("ConfirmPresenceUntilDateTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -33,6 +36,12 @@ namespace TrincaChu.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float>("TotalCollected")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TotalPerPersonWithAlcoholicDrink")
+                        .HasColumnType("real");
+
+                    b.Property<float>("TotalPerPersonWithoutAlcoholicDrink")
                         .HasColumnType("real");
 
                     b.Property<float>("TotalValue")
@@ -57,7 +66,10 @@ namespace TrincaChu.Migrations
                     b.Property<bool>("Admin")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("Confirmed")
+                    b.Property<bool>("ConsumeAlcoholicDrink")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("Paid")
                         .HasColumnType("bit");
 
                     b.HasKey("EventId", "AttendeeId");
@@ -67,27 +79,18 @@ namespace TrincaChu.Migrations
                     b.ToTable("EventAttendees");
                 });
 
-            modelBuilder.Entity("TrincaChu.Models.EventItens", b =>
-                {
-                    b.Property<long>("EventId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ItemId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("EventId", "ItemId");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("EventItens");
-                });
-
             modelBuilder.Entity("TrincaChu.Models.Item", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Category")
+                        .HasColumnType("int");
+
+                    b.Property<long>("EventId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -100,6 +103,8 @@ namespace TrincaChu.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("EventId");
+
                     b.ToTable("Item");
                 });
 
@@ -111,18 +116,24 @@ namespace TrincaChu.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("User");
                 });
@@ -146,7 +157,7 @@ namespace TrincaChu.Migrations
                     b.Navigation("Event");
                 });
 
-            modelBuilder.Entity("TrincaChu.Models.EventItens", b =>
+            modelBuilder.Entity("TrincaChu.Models.Item", b =>
                 {
                     b.HasOne("TrincaChu.Models.Event", "Event")
                         .WithMany("Itens")
@@ -154,15 +165,7 @@ namespace TrincaChu.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TrincaChu.Models.Item", "Item")
-                        .WithMany("Events")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Event");
-
-                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("TrincaChu.Models.Event", b =>
@@ -170,11 +173,6 @@ namespace TrincaChu.Migrations
                     b.Navigation("Attendees");
 
                     b.Navigation("Itens");
-                });
-
-            modelBuilder.Entity("TrincaChu.Models.Item", b =>
-                {
-                    b.Navigation("Events");
                 });
 
             modelBuilder.Entity("TrincaChu.Models.User", b =>

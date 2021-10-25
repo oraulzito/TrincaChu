@@ -1,9 +1,7 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using TrincaChu.Data;
+using TrincaChu.Repository;
+using TrincaChu.Services;
 
 namespace TrincaChu
 {
@@ -26,13 +26,12 @@ namespace TrincaChu
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-
             services.AddSwaggerGen(c =>
             {
+                c.EnableAnnotations();
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "TrincaChu", Version = "v1" });
 
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey,
@@ -41,7 +40,7 @@ namespace TrincaChu
                     In = ParameterLocation.Header,
                     Description = "JWT Authorization header using the Bearer scheme. \n" +
                                   "Enter 'Bearer' [space] and then your token in the text input below.\n" +
-                                  "Example: \"Bearer 12345abcdef\"",
+                                  "Example: \"Bearer 12345abcdef\""
                 });
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
@@ -59,29 +58,46 @@ namespace TrincaChu
                 });
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder => { builder.WithOrigins("http://127.0.0.1:4200"); });
+            });
+
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddControllers().AddNewtonsoftJson();
+
+            services.AddScoped<UnitOfWork>();
+
+            services.AddTransient(typeof(AuthenticatorService));
+            services.AddTransient(typeof(UserService));
+            services.AddTransient(typeof(ItemService));
+            services.AddTransient(typeof(EventService));
+            services.AddTransient(typeof(EventAttendeeService));
+
+            services.AddHttpContextAccessor();
+
             services.AddDbContext<DataContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("TrincaChuDatabase")));
 
-            services.AddControllers();
-
             var key = Encoding.ASCII.GetBytes(Settings.Secret);
-
             services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = false;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+                    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(x =>
+                {
+                    x.RequireHttpsMetadata = false;
+                    x.SaveToken = true;
+                    x.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,14 +110,21 @@ namespace TrincaChu
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TrincaChu v1"));
             }
 
+            app.UseStaticFiles();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             app.UseAuthentication();
-
+            
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }

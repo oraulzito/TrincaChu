@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using TrincaChu.Data;
+using Newtonsoft.Json.Linq;
 using TrincaChu.Models;
+using TrincaChu.Repository;
 using TrincaChu.Services;
 
 namespace TrincaChu.Controllers
@@ -16,30 +15,54 @@ namespace TrincaChu.Controllers
     [Authorize]
     public class UserController : Controller
     {
-        private readonly DataContext _context;
+        private readonly AuthenticatorService _authenticatorService;
+        private readonly UnitOfWork _uow;
+        private readonly UserService _userService;
 
-        public UserController(DataContext context)
+        public UserController(
+            UnitOfWork uow,
+            UserService userService,
+            AuthenticatorService authenticatorService
+        )
         {
-            _context = context;
+            _uow = uow;
+            _authenticatorService = authenticatorService;
         }
 
-        // [HttpGet]        
-        // public ActionResult<ICollection<User>> GetUsers()
-        // {
-        //     return _context.User.ToList();
-        // }
-
-
         [HttpGet("profile")]
-        public ActionResult<User> GetUser()
+        public ActionResult<User> Profile()
         {
             try
             {
-                return Ok();
+                var user = _uow.UserRepository.Get(u =>
+                    u.Id == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                return new OkObjectResult(
+                    new
+                    {
+                        id = user.Id,
+                        name = user.Name,
+                        lastName = user.LastName,
+                        email = user.Email,
+                    });
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return new BadRequestObjectResult(new { error = ex.Message });
+            }
+        }
+
+        [HttpGet("checkEmail")]
+        public ActionResult<bool> Profile(string email)
+        {
+            try
+            {
+                var user = _uow.UserRepository.Get(u =>
+                    u.Email == email);
+                return user != null ;
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new { error = ex.Message });
             }
         }
 
@@ -50,10 +73,13 @@ namespace TrincaChu.Controllers
             try
             {
                 user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-                _context.User.Add(user);
-                await _context.SaveChangesAsync();
+                _uow.UserRepository.Add(user);
+                
+                _uow.Commit();
 
-                return CreatedAtAction("GetUser", new { id = user.Id }, user);
+                _uow.Dispose();
+
+                return CreatedAtAction("Profile", new { id = user.Id }, user);
             }
             catch (Exception ex)
             {
@@ -66,12 +92,66 @@ namespace TrincaChu.Controllers
         {
             try
             {
-                if (ClaimTypes.NameIdentifier.Equals(user.Id.ToString()))
+                var userToBeUpdated = _uow.UserRepository.Get(u =>
+                    u.Id == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+                if (userToBeUpdated != null)
                 {
-                    _context.Entry(user).State = EntityState.Modified;
-                    await _context.SaveChangesAsync();
-                    return NoContent();
+                    _uow.UserRepository.Detach(userToBeUpdated);
+                    if (_authenticatorService.CheckPassword(user.Password, userToBeUpdated))
+                    {
+                        user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                        
+                        _uow.UserRepository.Update(user);
+                        
+                        _uow.Commit();
+                        
+                        _uow.Dispose();
+
+                        return NoContent();
+                    }
                 }
+
+                return BadRequest("You don't have the permission to do this!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /// <summary>
+        ///     Create an event
+        /// </summary>
+        /// <remarks>
+        ///     Sample request:
+        ///     POST /updatePassword
+        ///     {
+        ///     "oldPassword": "string",
+        ///     "newPassword": "string"
+        ///     }
+        /// </remarks>
+        [HttpPut("updatePassword")]
+        public async Task<ActionResult> Put(JObject passwords)
+        {
+            try
+            {
+                var userToBeUpdated = _uow.UserRepository.Get(u =>
+                    u.Id == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+
+                if (userToBeUpdated != null)
+                    if (_authenticatorService.CheckPassword(passwords["oldPassword"].ToString(), userToBeUpdated))
+                    {
+                        userToBeUpdated.Password = BCrypt.Net.BCrypt.HashPassword(passwords["newPassword"].ToString());
+                        
+                        _uow.UserRepository.Update(userToBeUpdated);
+                        
+                        _uow.Commit();
+                        
+                        _uow.Dispose();
+
+                        return NoContent();
+                    }
 
                 return BadRequest("You don't have the permission to do this!");
             }
@@ -86,11 +166,14 @@ namespace TrincaChu.Controllers
         {
             try
             {
-                var user = _context.User.FirstOrDefault(u => ClaimTypes.NameIdentifier.Equals(u.Id.ToString()));
+                var userToBeDeleted = _uow.UserRepository.Get(u =>
+                    u.Id == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
 
-                _context.User.Remove(user);
+                _uow.UserRepository.Delete(userToBeDeleted);
 
-                await _context.SaveChangesAsync();
+                _uow.Commit();
+                
+                _uow.Dispose();
 
                 return NoContent();
             }
@@ -100,19 +183,30 @@ namespace TrincaChu.Controllers
             }
         }
 
+        /// <summary>
+        ///     Create an event
+        /// </summary>
+        /// <remarks>
+        ///     Sample request:
+        ///     POST /login
+        ///     {
+        ///     "email": "string",
+        ///     "password": "string"
+        ///     }
+        /// </remarks>
         [HttpPost("login")]
         [AllowAnonymous]
-        public async Task<ActionResult> Login(string email, string password)
+        public async Task<ActionResult> Login(JObject credentials)
         {
             try
             {
-                var user = _context.User.FirstOrDefault(u => u.Email == email);
+                var user = _uow.UserRepository.Get(u => u.Email == credentials["email"].ToString());
 
                 if (user != null)
                 {
-                    if (BCrypt.Net.BCrypt.Verify(password, user.Password))
-                        return Ok(AuthenticatorService.GenerateToken(user));
-                    return BadRequest("Wrong password");
+                    if (_authenticatorService.CheckPassword(credentials["password"].ToString(), user))
+                        return new OkObjectResult(new { token = _authenticatorService.GenerateToken(user) });
+                    return BadRequest("Wrong Password");
                 }
 
                 return BadRequest("User not found");
@@ -121,13 +215,6 @@ namespace TrincaChu.Controllers
             {
                 return BadRequest(ex.Message);
             }
-        }
-
-        // TODO
-        [HttpPost("logout")]
-        public async Task<ActionResult> Logout()
-        {
-            return BadRequest("in progress");
         }
     }
 }
