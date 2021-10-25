@@ -1,5 +1,4 @@
 <nz-modal (nzOnCancel)="cancel()"
-          (nzOnOk)="item ?edit(item.id): cancel()"
           [(nzVisible)]="isVisible"
           nzTitle="Editar o churrasco">
   <ng-container *nzModalContent>
@@ -42,36 +41,65 @@
       </nz-collapse-panel>
       <nz-collapse-panel [nzHeader]="'Adicionar Itens'">
         <form [formGroup]="itemAddForm" class="login-form p-3" nz-form>
-          <!--   willYouConsumeAlcoholicDrink -->
+          <!--   name -->
           <nz-form-item>
             <nz-input-group>
-              <label>Irá consumir bebidas alcolicas?</label>
-              <br>
-              <nz-radio-group
-                formControlName="willYouConsumeAlcoholicDrink"
-                nzButtonStyle="solid">
-                <label nz-radio-button nzValue="true">Sim</label>
-                <label nz-radio-button nzValue="false">Não</label>
-              </nz-radio-group>
+              <label>Nome</label>
+              <input formControlName="name"
+                     nz-input placeholder="Nome" type="text">
             </nz-input-group>
+          </nz-form-item>
+          <!--   value -->
+          <nz-form-item>
+            <nz-input-group>
+              <label>Valor</label>
+              <input formControlName="value"
+                     min="0" nz-input type="number">
+            </nz-input-group>
+          </nz-form-item>
+          <!--   quantity -->
+          <nz-form-item>
+            <nz-input-group>
+              <label>Quantidade</label>
+              <input formControlName="quantity"
+                     min="0" nz-input type="number">
+            </nz-input-group>
+          </nz-form-item>
+          <!--   category -->
+          <nz-form-item>
+            <nz-input-group>
+              <label>Categoria</label>
+              <br>
+              <nz-select class="w-100" formControlName="category">
+                <nz-option nzLabel="Bebida" nzValue="0"></nz-option>
+                <nz-option nzLabel="Bebida alcólica" nzValue="1"></nz-option>
+                <nz-option nzLabel="Comida" nzValue="2"></nz-option>
+              </nz-select>
+            </nz-input-group>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <button (click)="addItem()" nz-button nzType="primary">Adicionar</button>
+            </nz-form-control>
           </nz-form-item>
         </form>
       </nz-collapse-panel>
       <nz-collapse-panel [nzHeader]="'Adicionar Participantes'">
         <form [formGroup]="attendeeAddForm" class="login-form p-3" nz-form>
-          <!--   willYouConsumeAlcoholicDrink -->
+          <!--   consumeAlcoholicDrink -->
           <nz-form-item>
             <nz-input-group>
               <label>Irá consumir bebidas alcolicas?</label>
               <br>
               <nz-radio-group
-                formControlName="willYouConsumeAlcoholicDrink"
+                formControlName="consumeAlcoholicDrink"
                 nzButtonStyle="solid">
                 <label nz-radio-button nzValue="true">Sim</label>
                 <label nz-radio-button nzValue="false">Não</label>
               </nz-radio-group>
             </nz-input-group>
           </nz-form-item>
+
         </form>
       </nz-collapse-panel>
     </nz-collapse>

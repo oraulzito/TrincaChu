@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {EventModel} from "../../../state/event/event.model";
 import {EventModelService} from "../../../state/event/event.service";
+import {ItemService} from "../../../state/item/item.service";
 
 @Component({
   selector: 'app-item-edit',
@@ -13,13 +14,14 @@ export class ItemEditComponent implements OnInit {
   itemAddForm: FormGroup;
   attendeeAddForm: FormGroup;
 
-  @Output() saved = new EventEmitter();
+  @Output() savedEdit = new EventEmitter();
   @Input() item: EventModel;
   @Input() isVisible = false;
 
   constructor(
     private fb: FormBuilder,
     private eventService: EventModelService,
+    private itemService: ItemService,
   ) {
   }
 
@@ -48,6 +50,10 @@ export class ItemEditComponent implements OnInit {
     });
   }
 
+  addItem() {
+    this.itemService.add(this.itemAddForm.value).subscribe();
+  }
+
   edit(id) {
     this.eventService.update(id, this.itemEditForm.value).subscribe();
   }
@@ -57,6 +63,6 @@ export class ItemEditComponent implements OnInit {
   }
 
   cancel() {
-    this.saved.emit(true);
+    this.savedEdit.emit(true);
   }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 using TrincaChu.Models;
 using TrincaChu.Repository;
 using TrincaChu.Services;
@@ -64,12 +65,34 @@ namespace TrincaChu.Controllers
             }
         }
 
-
+        /// <summary>
+        ///     Add a item to the event
+        /// </summary>
+        /// <remarks>
+        ///     Sample request:
+        ///     POST /updatePassword
+        ///     {
+        ///         "name": "string",
+        ///         "value": 0,
+        ///         "quantity": 0,
+        ///         "eventId": 0,
+        ///         "category": 0,
+        ///     }
+        /// </remarks>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Item item)
+        public async Task<ActionResult> Post([FromBody] JObject jObject)
         {
             try
             {
+                var item = new Item();
+
+                item.Name = jObject["name"].ToString();
+                item.Value = long.Parse(jObject["value"].ToString());
+                item.Quantity = Convert.ToInt32(jObject["quantity"].ToString());
+                item.EventId = long.Parse(jObject["eventId"].ToString());
+                item.Event = _uow.EventRepository.Get(e => e.Id == long.Parse(jObject["eventId"].ToString()));
+                item.Category = (Category)long.Parse(jObject["category"].ToString());
+
                 _uow.ItemRepository.Add(item);
 
                 _uow.Commit();
@@ -86,6 +109,8 @@ namespace TrincaChu.Controllers
             }
         }
 
+        public object Object { get; set; }
+
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] Item item)
         {
@@ -96,7 +121,7 @@ namespace TrincaChu.Controllers
                 _uow.Commit();
 
                 _eventService.UpdateCalculateValues(item.EventId);
-                
+
                 _uow.Dispose();
 
                 return NoContent();

@@ -14,7 +14,8 @@ export class ItemCardComponent implements OnInit {
   @Input() eventModel: EventModel;
   successPercentage: number;
   eventAttendeeForm: FormGroup;
-  isVisible = false;
+  isVisibleDetails = false;
+  isVisibleEdit = false;
 
   constructor(
     private userQuery: UserQuery,
@@ -31,7 +32,11 @@ export class ItemCardComponent implements OnInit {
   }
 
   show() {
-    this.isVisible = !this.isVisible;
+    this.isVisibleDetails = !this.isVisibleDetails;
+  }
+
+  edit() {
+    this.isVisibleEdit = !this.isVisibleEdit;
   }
 
   participateWithoutAlcoholicDrinks() {

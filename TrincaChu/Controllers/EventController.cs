@@ -60,6 +60,7 @@ namespace TrincaChu.Controllers
         {
             try
             {
+                var atendeeAdmin = _uow.EventAttendeesRepository.Get(u => u.Admin);
                 var attendeesCount = _uow.EventAttendeesRepository
                     .GetAll(ea => ea.AttendeeId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))).Count();
                 var myEvents = _uow.EventAttendeesRepository
@@ -81,7 +82,8 @@ namespace TrincaChu.Controllers
                             totalCollected = eJoin.TotalCollected,
                             totalPerPersonWithAlcoholicDrink = eJoin.TotalPerPersonWithAlcoholicDrink,
                             totalPerPersonWithoutAlcoholicDrink = eJoin.TotalPerPersonWithoutAlcoholicDrink,
-                            attendeeTotal = attendeesCount,
+                            atendeeAdmin.Attendee,
+                            attendeeTotal = attendeesCount
                         }
                     );
 
@@ -98,6 +100,7 @@ namespace TrincaChu.Controllers
         {
             try
             {
+                var atendeeAdmin = _uow.EventAttendeesRepository.Get(u => u.Admin);
                 var attendeesCount = _uow.EventAttendeesRepository
                     .GetAll(ea => ea.AttendeeId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))).Count();
                 var myEvents = _uow.EventAttendeesRepository
@@ -117,7 +120,8 @@ namespace TrincaChu.Controllers
                             totalCollected = eJoin.TotalCollected,
                             totalPerPersonWithAlcoholicDrink = eJoin.TotalPerPersonWithAlcoholicDrink,
                             totalPerPersonWithoutAlcoholicDrink = eJoin.TotalPerPersonWithoutAlcoholicDrink,
-                            attendeeTotal = attendeesCount,
+                            atendeeAdmin.Attendee,
+                            attendeeTotal = attendeesCount
                         }
                     );
 
@@ -134,6 +138,7 @@ namespace TrincaChu.Controllers
         {
             try
             {
+                var atendeeAdmin = _uow.EventAttendeesRepository.Get(u => u.Admin);
                 var attendeesCount = _uow.EventAttendeesRepository
                     .GetAll(ea => ea.AttendeeId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))).Count();
                 var myEvents = _uow.EventAttendeesRepository
@@ -153,7 +158,8 @@ namespace TrincaChu.Controllers
                             totalCollected = eJoin.TotalCollected,
                             totalPerPersonWithAlcoholicDrink = eJoin.TotalPerPersonWithAlcoholicDrink,
                             totalPerPersonWithoutAlcoholicDrink = eJoin.TotalPerPersonWithoutAlcoholicDrink,
-                            attendeeTotal = attendeesCount,
+                            atendeeAdmin.Attendee,
+                            attendeeTotal = attendeesCount
                         }
                     );
 
@@ -170,6 +176,7 @@ namespace TrincaChu.Controllers
         {
             try
             {
+                var atendeeAdmin = _uow.EventAttendeesRepository.Get(u => u.Admin);
                 var attendeesCount = _uow.EventAttendeesRepository
                     .GetAll(ea => ea.AttendeeId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))).Count();
                 var myEvents = _uow.EventAttendeesRepository
@@ -190,7 +197,8 @@ namespace TrincaChu.Controllers
                             totalCollected = eJoin.TotalCollected,
                             totalPerPersonWithAlcoholicDrink = eJoin.TotalPerPersonWithAlcoholicDrink,
                             totalPerPersonWithoutAlcoholicDrink = eJoin.TotalPerPersonWithoutAlcoholicDrink,
-                            attendeeTotal = attendeesCount,
+                            atendeeAdmin.Attendee,
+                            attendeeTotal = attendeesCount
                         }
                     );
 

@@ -30,7 +30,6 @@ export class ItemService {
   // tslint:disable-next-line:typedef
   add(form: any) {
     const body = {
-      id: form.id,
       name: form.name,
       value: form.value,
       quantity: form.quantity,
@@ -38,7 +37,7 @@ export class ItemService {
       category: form.category,
     };
 
-    return this.http.post<Item>('/api/item', body, this.uiService.httpHeaderOptions()).pipe(
+    return this.http.post('/api/item', body, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
       tap(entities => this.itemStore.add(entities)),
       catchError(error => throwError(error))

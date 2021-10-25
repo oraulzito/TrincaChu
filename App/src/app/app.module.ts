@@ -14,12 +14,14 @@ import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { environment } from '../environments/environment';
+import { ItemDetailsComponent } from './components/item/item-details/item-details.component';
 
 registerLocaleData(pt);
 
 @NgModule({
   declarations: [
     AppComponent,
+    ItemDetailsComponent,
   ],
   imports: [
     BrowserModule,

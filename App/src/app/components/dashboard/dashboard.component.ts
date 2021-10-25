@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.onResize();
     this.uiQuery.select('mobile').subscribe(m => this.mobile$ = m);
-    this.eventService.getPastEvents().subscribe();
+    this.eventService.getFutureEvents().subscribe();
     this.userService.get().subscribe();
   }
 

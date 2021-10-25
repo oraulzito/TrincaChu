@@ -1,0 +1,620 @@
+{
+	"info": {
+		"_postman_id": "1cc7c7c2-f10a-442f-9dc7-441240c69bde",
+		"name": "TrincaChu",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get Profile",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44358/v1/user/profile",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"string\",\r\n  \"lastName\": \"string\",\r\n  \"email\": \"string\",\r\n  \"password\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44358/v1/user",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"string\",\r\n    \"password\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44358/v1/user/login",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"user",
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "steffenraul@gmail.com",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "123456",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44358/v1/?id",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Password",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPassword\": \"string\",\r\n    \"newPassword\": \"string\",    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44358/v1/user/updatePassword",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"user",
+								"updatePassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Account",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"string\",\r\n    \"lastName\": \"string\",\r\n    \"email\": \"user@example.com\",\r\n    \"password\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44358/v1/user",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Event",
+			"item": [
+				{
+					"name": "Get Events",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44358/v1/event",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Event",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44358/v1/event/1",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"event",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Events",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44358/v1/event/myEvents",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"event",
+								"myEvents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Future Events",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44358/v1/event/myEvents",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"event",
+								"myEvents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Past Events",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44358/v1/event/myEvents",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"event",
+								"myEvents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Event",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"whenWillHappen\": \"2021-10-22T13:31:39.575Z\",\r\n    \"confirmPresenceUntilDateTime\": \"2021-10-22T13:31:39.575Z\",\r\n    \"description\": \"Angular Churrasco\",\r\n    \"observations\": \"Teste angular\",\r\n    \"totalValue\": 0,\r\n    \"totalCollected\": 0,\r\n    \"totalPerAteendeeWithDrink\": 0,\r\n    \"totalPerAteendeeWithAlcoholicDrink\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44358/v1/event",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Event",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"string\",\r\n    \"observations\": \"string\",\r\n    \"whenWillHappen\": \"DateTime\",\r\n    \"confirmPresenceUntilDateTime\": \"DateTime\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44358/v1/event",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Event",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44358/v1/event",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"event"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Item",
+			"item": [
+				{
+					"name": "Get Event Itens",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44358/v1/item",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Item",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"string\",\r\n    \"value\": 0,\r\n    \"quantity\": 0,\r\n    \"eventId\": 0,\r\n    \"category\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44358/v1/item",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Item",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"name\": \"string\",\r\n  \"value\": 0,\r\n  \"quantity\": 0,\r\n  \"category\": 0,\r\n  \"eventId\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44358/v1/item",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"item"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Item",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44358/v1/item/id",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"item",
+								"id"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Event Attendees",
+			"item": [
+				{
+					"name": "Update Attendee",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"eventId\": 0,\r\n  \"attendeeId\": 0,\r\n  \"admin\": true,\r\n  \"consumeAlcoholicDrink\": true,\r\n  \"paid\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44358/v1/eventAttendees",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"eventAttendees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Attendee",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44358/v1/eventAttendees/",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"eventAttendees",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Attendee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"eventId\": 0,\r\n  \"attendeeId\": 0,\r\n  \"admin\": true,\r\n  \"consumeAlcoholicDrink\": true,\r\n  \"paid\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://localhost:44358/v1/attendees",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"attendees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Event Attendess",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:44358/v1/event/myEvents",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "44358",
+							"path": [
+								"v1",
+								"event",
+								"myEvents"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -16,18 +16,20 @@ namespace TrincaChu.Services
 
         private float PreventNaN(float val)
         {
-            return !float.IsNaN(val) ? 0 : val;
+            return float.IsNaN(val) ? 0 : val;
         }
 
     private float CalculatePercentageOfAlcoholicDrinksOnTotalPrice(long eventId)
         {
-            var itensFromEvent =
+            var alcoholicItems =
                 _uow.ItemRepository
                     .GetAll(item => item.EventId == eventId && item.Category == Category.AlcoholicDrink).ToList();
 
-            var valueAlcoholicDrink = itensFromEvent.Sum(item => item.Value * item.Quantity);
+            var valueAlcoholicDrink = PreventNaN(alcoholicItems.Sum(item => item.Value * item.Quantity));
 
-            var valueAll = PreventNaN(_uow.ItemRepository.GetAll(i => i.EventId == eventId).Sum(i => i.Value * i.Quantity));
+            var allItens = _uow.ItemRepository.GetAll(i => i.EventId == eventId);
+            
+            var valueAll = PreventNaN(allItens.Sum(i => i.Value * i.Quantity));
 
             var percentage = valueAlcoholicDrink / valueAll;
 
@@ -47,8 +49,8 @@ namespace TrincaChu.Services
             var eventToBeUpdated = _uow.EventRepository.Get(i => i.Id == eventId);
 
             eventToBeUpdated.TotalValue = valueTotal;
-            eventToBeUpdated.TotalPerPersonWithAlcoholicDrink = dividedValue + dividedValue * percentageValue;
-            eventToBeUpdated.TotalPerPersonWithoutAlcoholicDrink = dividedValue - dividedValue * percentageValue;
+            eventToBeUpdated.TotalPerPersonWithAlcoholicDrink = dividedValue + (dividedValue * percentageValue);
+            eventToBeUpdated.TotalPerPersonWithoutAlcoholicDrink = dividedValue - (dividedValue * percentageValue);
 
             _uow.EventRepository.Update(eventToBeUpdated);
 
