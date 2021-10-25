@@ -1,0 +1,37 @@
+<nz-card *ngIf="!loadingLogin$" class="card-border card-login" nzTitle="TrincaChu">
+  <form (ngSubmit)="submitForm()" [formGroup]="loginForm" class="login-form" nz-form>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Insira seu email!">
+        <nz-input-group nzPrefixIcon="user">
+          <input formControlName="email" nz-input placeholder="Email" type="text"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control nzErrorTip="Insira sua senha!">
+        <nz-input-group nzPrefixIcon="lock">
+          <input formControlName="password" nz-input placeholder="Senha" type="password"/>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <div class="login-form-margin" nz-row>
+      <div [nzSpan]="24" nz-col>
+        <span *ngIf="error"
+              class="bg-danger text-white text-center">As credenciais informadas não estão corretas!</span>
+      </div>
+    </div>
+    <div class="text-center">
+      <button *ngIf="!error" [nzType]="'primary'" class="login-form-button login-form-margin" nz-button>Entrar</button>
+      <button *ngIf="error" [nzType]="'primary'" class="login-form-button login-form-margin" nz-button nzDanger>Entrar
+      </button>
+      <br>
+      <br>
+      Ou
+      <a href="/signIn">Registre-se agora!</a>
+    </div>
+  </form>
+</nz-card>
+<div *ngIf="loadingLogin$">
+  <h2 class="text-white" nz-icon nzTheme="outline" nzType="loading"></h2>
+</div>
+

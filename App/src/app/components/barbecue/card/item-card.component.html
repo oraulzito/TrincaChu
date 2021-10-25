@@ -1,0 +1,57 @@
+<nz-card [nzActions]="[participateWith, participateWithout]"
+         [nzExtra]="seeMore"
+         [nzTitle]=eventModel.description class="card-release m-3 border-1">
+  <div nz-row>
+    <div nz-col nzSm="24">
+      <h6>Sobre o evento:{{eventModel.observations}}</h6>
+    </div>
+    <hr class="text-black w-100">
+    <div nz-col nzSm="9">
+      <nz-card-meta nzDescription="{{eventModel.whenWillHappen | date: 'dd/MM/yyyy, h:mm a'}}"
+                    nzTitle="Quando?"></nz-card-meta>
+    </div>
+    <div nz-col nzSm="15">
+      <nz-card-meta nzDescription="{{eventModel.confirmPresenceUntilDateTime | date: 'dd/MM/yyyy, h:mm a'}}"
+                    nzTitle="Você pode confirmar presença até:"></nz-card-meta>
+    </div>
+    <hr class="text-black w-100">
+    <div nz-col nzSm="24">
+      <nz-progress [nzPercent]="'100'" [nzShowInfo]="false"
+                   [nzSuccessPercent]=successPercentage [nzType]="'line'"></nz-progress>
+    </div>
+    <div class="text-center" nz-col nzSm="24">
+      <span class="font-weight-light">
+        Já foi coletado {{eventModel.totalCollected | currency:'BRL'}} de {{eventModel.totalValue| currency:'BRL'}}
+      </span>
+    </div>
+    <hr class="text-black w-100">
+    <div nz-col nzSm="24">
+      <small>{{eventModel.attendeeTotal}} pessoas já confirmaram presença.</small>
+      <br>
+      <small>O valor com bebidas alcoólicas, é
+        de {{eventModel.totalPerPersonWithAlcoholicDrink| currency:'BRL'}}</small>
+      <br>
+      <small>O valor sem bebidas alcoólicas, é
+        de{{eventModel.totalPerPersonWithoutAlcoholicDrink| currency:'BRL'}}</small>
+    </div>
+  </div>
+</nz-card>
+
+<ng-template #seeMore>
+  <button (click)="show()" class="border-0" nz-button>
+    <i nz-icon nzTheme="outline" nzType="arrows-alt"></i>
+  </button>
+</ng-template>
+<ng-template #participateWith>
+  <button (click)="participateWithAlcoholicDrinks()" [title]="'Confirmar presença, e vou beber!'" class="border-0"
+          nz-button>
+    <i class="beer"></i>
+  </button>
+</ng-template>
+<ng-template #participateWithout>
+  <button (click)="participateWithoutAlcoholicDrinks()" [title]="'Confirmar presença, e não vou beber!'"
+          class="border-0"
+          nz-button>
+    <i class="noBeer"></i>
+  </button>
+</ng-template>

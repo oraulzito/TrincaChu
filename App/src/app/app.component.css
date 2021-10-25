@@ -1,0 +1,54 @@
+nz-layout {
+  background-color: #111111 !important;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+:host {
+  height: 100% !important;
+  display: flex;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:host ::ng-deep > * {
+  height: 100%;
+}
+
+@media only screen and (max-width: 768px) and (orientation: portrait) {
+  nz-layout {
+    height: 100vh !important;
+    /*background-image: url("src/assets/backgroundMobile.svg");*/
+
+  }
+
+  nz-content {
+    width: 100%;
+  }
+}
+
+:host ::ng-deep .vh-15 {
+  height: 15vw !important;
+}
+
+:host ::ng-deep .vh-35 {
+  height: 35vh !important;
+}
+
+:host ::ng-deep .vh-45 {
+  height: 45vw !important;
+}
+
+:host ::ng-deep .vh-50 {
+  height: 50vh !important;
+}
+
+:host ::ng-deep .vh-75 {
+  height: 75vh !important;
+}
+
+:host ::ng-deep .vw-85 {
+  width: 85vw !important;
+}
+
