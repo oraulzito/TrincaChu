@@ -9,6 +9,7 @@ import {EventQuery} from "../../../state/event/event.query";
 })
 export class DashboardPanelComponent implements OnInit {
   selectedEvents?: EventModel[];
+  loadingEvents$: boolean;
 
   constructor(
     private eventQuery: EventQuery
@@ -17,6 +18,7 @@ export class DashboardPanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventQuery.selectAll().subscribe(e => this.selectedEvents = e);
+    this.eventQuery.selectLoading().subscribe(e => this.loadingEvents$ = e);
   }
 
 }

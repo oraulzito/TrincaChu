@@ -39,12 +39,11 @@ export class ItemEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.attendeesService.get(this.item.id).subscribe();
+    this.attendeesService.getNonAttendees(this.item.id).subscribe();
     this.itemService.getEventItens(this.item.id).subscribe();
 
     this.itemQuery.selectAll().subscribe(i => this.itens = i);
     this.attendeeQuery.selectAll().subscribe(a => this.attendees = a);
-
 
     this.itemEditForm = this.fb.group({
       whenWillHappen: new FormControl(this.item.whenWillHappen),

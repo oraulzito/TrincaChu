@@ -1,4 +1,8 @@
 <div class="w-100 h-100" nz-row nzAlign="middle" nzJustify="center">
+  <ng-template [ngIf]="loadingEvents$">
+    <h2 class="text-white" nz-icon nzTheme="outline" nzType="loading"></h2>
+  </ng-template>
+  <ng-template [ngIf]="!loadingEvents$">
   <ng-template [ngIf]="selectedEvents.length == 0 ">
     <nz-card nz-col nzMd="12" nzSm="18" nzTitle="Hora de marcar um churrasco!" nzXs="8">
       <nz-empty [nzNotFoundContent]="'Não existem eventos nessa categoria.'"
@@ -10,5 +14,6 @@
     <ng-template [ngForOf]="selectedEvents" let-ev let-i="index" ngFor>
       <app-item-card [eventModel]="ev" nz-col nzMd="8" nzSm="12" nzXl="6" nzXs="24"></app-item-card>
     </ng-template>
+  </ng-template>
   </ng-template>
 </div>

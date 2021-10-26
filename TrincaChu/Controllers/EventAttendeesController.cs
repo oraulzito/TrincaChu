@@ -62,6 +62,29 @@ namespace TrincaChu.Controllers
                 return new BadRequestObjectResult(new { error = ex.Message });
             }
         }
+        
+        
+
+        [HttpGet("nonAttendes/{eventId}")]
+        public ActionResult<User> GetNonAttendes(long eventId)
+        {
+            try
+            {
+                var attendees = _uow.EventAttendeesRepository.GetAll(ea => ea.EventId == eventId)
+                    .Select(ear => ear.AttendeeId);
+                
+                var users = _uow.UserRepository.GetAll()
+                    .Select(u => u)
+                    .Where(u => !attendees.Contains(u.Id))
+                    .Select(ru => new { ru.Id, ru.Email, ru.Name, ru.LastName });
+
+                return new OkObjectResult(users);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new { error = ex.Message });
+            }
+        }
 
         /// <summary>
         ///     Add an attendee to the event

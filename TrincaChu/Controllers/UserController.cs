@@ -30,28 +30,6 @@ namespace TrincaChu.Controllers
             _authenticatorService = authenticatorService;
         }
 
-        [HttpGet("attendes/{eventId}")]
-        public ActionResult<User> GetAttendes(long eventId)
-        {
-            try
-            {
-                // FIXME get only users not in event yet
-                var attendees = _uow.EventAttendeesRepository.GetAll(ea => ea.EventId == eventId)
-                    .Select(ear => ear.AttendeeId);
-                
-                var users = _uow.UserRepository.GetAll()
-                    .Select(u => u)
-                    .Where(u => !attendees.Contains(u.Id))
-                    .Select(ru => new { ru.Id, ru.Email, ru.Name, ru.LastName });
-
-                return new OkObjectResult(users);
-            }
-            catch (Exception ex)
-            {
-                return new BadRequestObjectResult(new { error = ex.Message });
-            }
-        }
-
         [HttpGet("profile")]
         public ActionResult<User> Profile()
         {

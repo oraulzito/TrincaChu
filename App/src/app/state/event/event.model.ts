@@ -1,6 +1,6 @@
-import {ID, IDS} from "@datorama/akita";
+import {ID} from "@datorama/akita";
 import {Item} from "../item/item.model";
-import {EventAttendee} from "../eventAttendee/event-attendees.model";
+import {Attendees} from "../attendees/attendees.model";
 
 export interface EventModel {
   id: ID;
@@ -15,7 +15,7 @@ export interface EventModel {
   totalPerPersonWithoutAlcoholicDrink: number;
 
   attendeeTotal: number;
-  attendees: EventAttendee[];
+  attendees: Attendees[];
   attendeesAdminIds: ID[];
   itens: Item[];
 }

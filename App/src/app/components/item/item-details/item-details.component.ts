@@ -42,11 +42,10 @@ export class ItemDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.eventService.get(this.id).subscribe(e => this.detailEvent = e);
 
-    this.attendeesService.get(this.id).subscribe();
+    this.attendeesService.get(this.id).subscribe(r => this.detailEvent.attendees = r);
     this.itemService.getEventItens(this.id).subscribe();
 
     this.itemQuery.selectAll().subscribe(i => this.itens = i);
-    this.attendeeQuery.selectAll().subscribe(a => this.attendees = a);
     this.user = this.userQuery.getValue();
   }
 

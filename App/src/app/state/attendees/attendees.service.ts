@@ -19,7 +19,15 @@ export class AttendeesService {
   }
 
   get(eventId) {
-    return this.http.get<Attendees[]>('/api/user/attendes/' + eventId, this.uiService.httpHeaderOptions()).pipe(
+    return this.http.get<Attendees[]>('/api/attendees/' + eventId, this.uiService.httpHeaderOptions()).pipe(
+      shareReplay(1),
+      tap(entities => this.attendeesStore.set(entities)),
+      catchError(error => throwError(error))
+    );
+  }
+
+  getNonAttendees(eventId) {
+    return this.http.get<Attendees[]>('/api/attendees/nonAttendes/' + eventId, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
       tap(entities => this.attendeesStore.set(entities)),
       catchError(error => throwError(error))
@@ -38,7 +46,6 @@ export class AttendeesService {
 
     return this.http.post<EventAttendee>('/api/attendees', body, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
-      tap(entities => this.eventAttendeeStore.add(entities)),
       catchError(error => throwError(error))
     );
   }

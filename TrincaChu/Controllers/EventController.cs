@@ -97,27 +97,23 @@ namespace TrincaChu.Controllers
         {
             try
             {
-                var futureEvents = _uow.EventAttendeesRepository
-                    .GetAll(ea => ea.Event.ConfirmPresenceUntilDateTime.CompareTo(DateTime.Now) > 0)
-                    .Join(
-                        _uow.EventRepository.GetAll(),
-                        ea => ea.EventId,
-                        e => e.Id,
-                        (eaJoin, eJoin) => new
-                        {
-                            id = eJoin.Id,
-                            description = eJoin.Description,
-                            whenWillHappen = eJoin.WhenWillHappen,
-                            confirmPresenceUntilDateTime = eJoin.ConfirmPresenceUntilDateTime,
-                            observations = eJoin.Observations,
-                            totalValue = eJoin.TotalValue,
-                            totalCollected = eJoin.TotalCollected,
-                            totalPerPersonWithAlcoholicDrink = eJoin.TotalPerPersonWithAlcoholicDrink,
-                            totalPerPersonWithoutAlcoholicDrink = eJoin.TotalPerPersonWithoutAlcoholicDrink,
-                            attendeesAdminIds = _eventService.GetEventAdminIds(eJoin.Id),
-                            attendeeTotal = _eventService.GetCountAttendees(eJoin.Id)
-                        }
-                    ).Distinct();
+                var futureEvents = _uow.EventRepository
+                    .GetAll(e => e.ConfirmPresenceUntilDateTime.CompareTo(DateTime.Now) > 0)
+                    .Select(r => new
+                    {
+                        id = r.Id,
+                        description = r.Description,
+                        whenWillHappen = r.WhenWillHappen,
+                        confirmPresenceUntilDateTime = r.ConfirmPresenceUntilDateTime,
+                        observations = r.Observations,
+                        totalValue = r.TotalValue,
+                        totalCollected = r.TotalCollected,
+                        totalPerPersonWithAlcoholicDrink = r.TotalPerPersonWithAlcoholicDrink,
+                        totalPerPersonWithoutAlcoholicDrink = r.TotalPerPersonWithoutAlcoholicDrink,
+                        attendeesAdminIds = _eventService.GetEventAdminIds(r.Id),
+                        attendeeTotal = _eventService.GetCountAttendees(r.Id)
+                    })
+                    .Distinct();
 
                 return Ok(futureEvents);
             }
@@ -132,27 +128,23 @@ namespace TrincaChu.Controllers
         {
             try
             {
-                var pastEvents = _uow.EventAttendeesRepository
-                    .GetAll(ea => ea.Event.ConfirmPresenceUntilDateTime.CompareTo(DateTime.Now) < 0)
-                    .Join(
-                        _uow.EventRepository.GetAll(),
-                        ea => ea.EventId,
-                        e => e.Id,
-                        (eaJoin, eJoin) => new
-                        {
-                            id = eJoin.Id,
-                            description = eJoin.Description,
-                            whenWillHappen = eJoin.WhenWillHappen,
-                            confirmPresenceUntilDateTime = eJoin.ConfirmPresenceUntilDateTime,
-                            observations = eJoin.Observations,
-                            totalValue = eJoin.TotalValue,
-                            totalCollected = eJoin.TotalCollected,
-                            totalPerPersonWithAlcoholicDrink = eJoin.TotalPerPersonWithAlcoholicDrink,
-                            totalPerPersonWithoutAlcoholicDrink = eJoin.TotalPerPersonWithoutAlcoholicDrink,
-                            attendeesAdminIds = _eventService.GetEventAdminIds(eJoin.Id),
-                            attendeeTotal = _eventService.GetCountAttendees(eJoin.Id)
-                        }
-                    ).Distinct();
+                var pastEvents = _uow.EventRepository
+                    .GetAll(e => e.ConfirmPresenceUntilDateTime.CompareTo(DateTime.Now) < 0)
+                    .Select(r => new
+                    {
+                        id = r.Id,
+                        description = r.Description,
+                        whenWillHappen = r.WhenWillHappen,
+                        confirmPresenceUntilDateTime = r.ConfirmPresenceUntilDateTime,
+                        observations = r.Observations,
+                        totalValue = r.TotalValue,
+                        totalCollected = r.TotalCollected,
+                        totalPerPersonWithAlcoholicDrink = r.TotalPerPersonWithAlcoholicDrink,
+                        totalPerPersonWithoutAlcoholicDrink = r.TotalPerPersonWithoutAlcoholicDrink,
+                        attendeesAdminIds = _eventService.GetEventAdminIds(r.Id),
+                        attendeeTotal = _eventService.GetCountAttendees(r.Id)
+                    })
+                    .Distinct();
 
                 return Ok(pastEvents);
             }
@@ -186,7 +178,7 @@ namespace TrincaChu.Controllers
                             totalPerPersonWithAlcoholicDrink = eJoin.TotalPerPersonWithAlcoholicDrink,
                             totalPerPersonWithoutAlcoholicDrink = eJoin.TotalPerPersonWithoutAlcoholicDrink,
                             attendeesAdminIds = _eventService.GetEventAdminIds(eJoin.Id),
-                            attendeeTotal =  _eventService.GetCountAttendees(eJoin.Id)
+                            attendeeTotal = _eventService.GetCountAttendees(eJoin.Id)
                         }
                     ).Distinct();
 
