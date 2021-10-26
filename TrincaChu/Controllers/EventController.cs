@@ -320,7 +320,9 @@ namespace TrincaChu.Controllers
 
                 if (eventAdmin != null)
                 {
-                    _uow.EventRepository.Delete(eventAdmin.Event);
+                    var eventToBeDeleted = _uow.EventRepository.Get(e => e.Id == id);
+                    
+                    _uow.EventRepository.Delete(eventToBeDeleted);
 
                     _uow.Commit();
 

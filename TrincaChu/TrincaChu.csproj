@@ -39,4 +39,24 @@
         <_ContentIncludedByDefault Remove="wwwroot\favicon.ico" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Models\DTO\**" />
+      <Compile Remove="Models\Mapping\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Models\DTO\**" />
+      <EmbeddedResource Remove="Models\Mapping\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Models\DTO\**" />
+      <None Remove="Models\Mapping\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Models\DTO\**" />
+      <Content Remove="Models\Mapping\**" />
+    </ItemGroup>
+
 </Project>
