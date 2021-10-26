@@ -33,8 +33,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.isVisible = !this.isVisible;
   }
 
-  getAll() {
-    this.eventService.getAll().subscribe();
+  getFutureEvents() {
+    this.eventService.getFutureEvents().subscribe();
   }
 
   getEventsIWillAttend() {

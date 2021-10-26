@@ -50,6 +50,9 @@ namespace TrincaChu.Migrations
                     b.Property<DateTime>("WhenWillHappen")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("WhereItWillHappen")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Event");

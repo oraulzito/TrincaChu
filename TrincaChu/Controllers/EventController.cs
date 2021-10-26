@@ -17,7 +17,7 @@ namespace TrincaChu.Controllers
     [Authorize]
     public class EventController : Controller
     {
-        private readonly EventService _eventController;
+        private readonly EventService _eventService;
         private readonly UnitOfWork _uow;
 
         public EventController(
@@ -26,7 +26,7 @@ namespace TrincaChu.Controllers
         )
         {
             _uow = uow;
-            _eventController = eventService;
+            _eventService = eventService;
         }
 
         [HttpGet]
@@ -60,9 +60,6 @@ namespace TrincaChu.Controllers
         {
             try
             {
-                var atendeeAdmin = _uow.EventAttendeesRepository.Get(u => u.Admin);
-                var attendeesCount = _uow.EventAttendeesRepository
-                    .GetAll(ea => ea.AttendeeId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))).Count();
                 var myEvents = _uow.EventAttendeesRepository
                     .GetAll(ea =>
                         ea.AttendeeId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) &&
@@ -82,8 +79,8 @@ namespace TrincaChu.Controllers
                             totalCollected = eJoin.TotalCollected,
                             totalPerPersonWithAlcoholicDrink = eJoin.TotalPerPersonWithAlcoholicDrink,
                             totalPerPersonWithoutAlcoholicDrink = eJoin.TotalPerPersonWithoutAlcoholicDrink,
-                            atendeeAdmin.Attendee,
-                            attendeeTotal = attendeesCount
+                            attendeesAdminIds = _eventService.GetEventAdminIds(eJoin.Id),
+                            attendeeTotal = _eventService.GetCountAttendees(eJoin.Id)
                         }
                     ).Distinct();
 
@@ -100,10 +97,7 @@ namespace TrincaChu.Controllers
         {
             try
             {
-                var atendeeAdmin = _uow.EventAttendeesRepository.Get(u => u.Admin);
-                var attendeesCount = _uow.EventAttendeesRepository
-                    .GetAll(ea => ea.AttendeeId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))).Count();
-                var myEvents = _uow.EventAttendeesRepository
+                var futureEvents = _uow.EventAttendeesRepository
                     .GetAll(ea => ea.Event.ConfirmPresenceUntilDateTime.CompareTo(DateTime.Now) > 0)
                     .Join(
                         _uow.EventRepository.GetAll(),
@@ -120,12 +114,12 @@ namespace TrincaChu.Controllers
                             totalCollected = eJoin.TotalCollected,
                             totalPerPersonWithAlcoholicDrink = eJoin.TotalPerPersonWithAlcoholicDrink,
                             totalPerPersonWithoutAlcoholicDrink = eJoin.TotalPerPersonWithoutAlcoholicDrink,
-                            atendeeAdmin.Attendee,
-                            attendeeTotal = attendeesCount
+                            attendeesAdminIds = _eventService.GetEventAdminIds(eJoin.Id),
+                            attendeeTotal = _eventService.GetCountAttendees(eJoin.Id)
                         }
                     ).Distinct();
 
-                return Ok(myEvents);
+                return Ok(futureEvents);
             }
             catch (Exception ex)
             {
@@ -138,10 +132,7 @@ namespace TrincaChu.Controllers
         {
             try
             {
-                var atendeeAdmin = _uow.EventAttendeesRepository.Get(u => u.Admin);
-                var attendeesCount = _uow.EventAttendeesRepository
-                    .GetAll(ea => ea.AttendeeId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))).Count();
-                var myEvents = _uow.EventAttendeesRepository
+                var pastEvents = _uow.EventAttendeesRepository
                     .GetAll(ea => ea.Event.ConfirmPresenceUntilDateTime.CompareTo(DateTime.Now) < 0)
                     .Join(
                         _uow.EventRepository.GetAll(),
@@ -158,12 +149,12 @@ namespace TrincaChu.Controllers
                             totalCollected = eJoin.TotalCollected,
                             totalPerPersonWithAlcoholicDrink = eJoin.TotalPerPersonWithAlcoholicDrink,
                             totalPerPersonWithoutAlcoholicDrink = eJoin.TotalPerPersonWithoutAlcoholicDrink,
-                            atendeeAdmin.Attendee,
-                            attendeeTotal = attendeesCount
+                            attendeesAdminIds = _eventService.GetEventAdminIds(eJoin.Id),
+                            attendeeTotal = _eventService.GetCountAttendees(eJoin.Id)
                         }
                     ).Distinct();
 
-                return Ok(myEvents);
+                return Ok(pastEvents);
             }
             catch (Exception ex)
             {
@@ -176,10 +167,7 @@ namespace TrincaChu.Controllers
         {
             try
             {
-                var atendeeAdmin = _uow.EventAttendeesRepository.Get(u => u.Admin);
-                var attendeesCount = _uow.EventAttendeesRepository
-                    .GetAll(ea => ea.AttendeeId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))).Count();
-                var myEvents = _uow.EventAttendeesRepository
+                var eventsIWillAttend = _uow.EventAttendeesRepository
                     .GetAll(ea =>
                         ea.AttendeeId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)))
                     .Join(
@@ -197,12 +185,12 @@ namespace TrincaChu.Controllers
                             totalCollected = eJoin.TotalCollected,
                             totalPerPersonWithAlcoholicDrink = eJoin.TotalPerPersonWithAlcoholicDrink,
                             totalPerPersonWithoutAlcoholicDrink = eJoin.TotalPerPersonWithoutAlcoholicDrink,
-                            atendeeAdmin.Attendee,
-                            attendeeTotal = attendeesCount
+                            attendeesAdminIds = _eventService.GetEventAdminIds(eJoin.Id),
+                            attendeeTotal =  _eventService.GetCountAttendees(eJoin.Id)
                         }
                     ).Distinct();
 
-                return Ok(myEvents);
+                return Ok(eventsIWillAttend);
             }
             catch (Exception ex)
             {

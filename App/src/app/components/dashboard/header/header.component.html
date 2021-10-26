@@ -1,21 +1,37 @@
 <!-- TODO improve loading info by adding some icons to show that something is being loaded -->
 <div nz-row>
-  <div nz-col nzMd="6" nzXs="8">
+  <div nz-col nzMd="4" nzXs="8">
     <h3 class="text-white">TrincaChu</h3>
     <h6 class="text-white">{{user.name}} {{user.lastName}}</h6>
   </div>
-  <div nz-col nzXs="14">
-    <div class="wrapper">
-      <button (click)="toggleCollapsed()" *ngIf="mobile$" nz-button nzType="primary">
+  <div nz-col nzMd="16" nzXs="14">
+    <div *ngIf="mobile$" class="wrapper">
+      <button (click)="toggleCollapsed()" nz-button nzType="primary">
         <i [nzType]="isCollapsed  ? 'menu-unfold' : 'menu-fold'" nz-icon></i>
       </button>
-      <ul [hidden]="isCollapsed" [nzInlineCollapsed]="isCollapsed" [nzMode]="mobile$?'inline':'horizontal'" nz-menu
+      <ul [hidden]="isCollapsed && mobile$" [nzInlineCollapsed]="isCollapsed" [nzMode]="'inline'" nz-menu
           nzTheme="dark">
         <li nz-menu-item>
           <a (click)="addBarbecue()">Adicionar Churrasco</a>
         </li>
         <li nz-menu-item nzSelected>
-          <a (click)="getAll()">Próximos Churrascos</a>
+          <a (click)="getFutureEvents()">Próximos Churrascos</a>
+        </li>
+        <li nz-menu-item>
+          <a (click)="getEventsIWillAttend()">Presença Confirmada</a>
+        </li>
+        <li nz-menu-item>
+          <a (click)="getMyEvents()">Meus Churrascos</a>
+        </li>
+      </ul>
+    </div>
+    <div *ngIf="!mobile$">
+      <ul [nzMode]="'horizontal'" nz-menu nzTheme="dark">
+        <li nz-menu-item>
+          <a (click)="addBarbecue()">Adicionar Churrasco</a>
+        </li>
+        <li nz-menu-item nzSelected>
+          <a (click)="getFutureEvents()">Próximos Churrascos</a>
         </li>
         <li nz-menu-item>
           <a (click)="getEventsIWillAttend()">Presença Confirmada</a>
@@ -26,7 +42,7 @@
       </ul>
     </div>
   </div>
-  <div [nzOffset]="" nz-col nzMd="6" nzXs="2">
+  <div class="align-content-center" nz-col nzMd="4" nzXs="2">
     <button [nzDropdownMenu]="menu2" nz-button nz-dropdown nzPlacement="bottomRight" nzShape="circle">
       <i nz-icon nzType="user"></i>
     </button>

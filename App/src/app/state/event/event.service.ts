@@ -22,17 +22,16 @@ export class EventModelService {
     return this.http.get<EventModel[]>('/api/event', this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
       setLoading(this.eventStore),
-      tap(releases => this.eventStore.set(releases)),
+      tap(entity => this.eventStore.set(entity)),
       catchError(error => throwError(error))
     );
   }
 
   // tslint:disable-next-line:typedef
   get(id: number) {
-    return this.http.get<EventModel[]>('/api/event/' + id, this.uiService.httpHeaderOptions()).pipe(
+    return this.http.get<EventModel>('/api/event/' + id, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
       setLoading(this.eventStore),
-      tap(releases => this.eventStore.set(releases)),
       catchError(error => throwError(error))
     );
   }
@@ -42,7 +41,7 @@ export class EventModelService {
     return this.http.get<EventModel[]>('/api/event/futureEvents', this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
       setLoading(this.eventStore),
-      tap(releases => this.eventStore.set(releases)),
+      tap(entity => this.eventStore.set(entity)),
       catchError(error => throwError(error))
     );
   }
@@ -52,7 +51,7 @@ export class EventModelService {
     return this.http.get<EventModel[]>('/api/event/pastEvents', this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
       setLoading(this.eventStore),
-      tap(releases => this.eventStore.set(releases)),
+      tap(entity => this.eventStore.set(entity)),
       catchError(error => throwError(error))
     );
   }
@@ -62,7 +61,7 @@ export class EventModelService {
     return this.http.get<EventModel[]>('/api/event/myEvents', this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
       setLoading(this.eventStore),
-      tap(releases => this.eventStore.set(releases)),
+      tap(entity => this.eventStore.set(entity)),
       catchError(error => throwError(error))
     );
   }
@@ -72,7 +71,7 @@ export class EventModelService {
     return this.http.get<EventModel[]>('/api/event/eventsIWillAttend', this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
       setLoading(this.eventStore),
-      tap(releases => this.eventStore.set(releases)),
+      tap(entity => this.eventStore.set(entity)),
       catchError(error => throwError(error))
     );
   }
@@ -110,7 +109,7 @@ export class EventModelService {
       totalPerPersonWithoutAlcoholicDrink: 0,
     };
 
-    return this.http.put('/api/event' + id, body, this.uiService.httpHeaderOptions()).pipe(
+    return this.http.put('/api/event/' + id, body, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
       tap(entities => entities === 1 ? this.eventStore.update(id, body) : this.eventStore.setError("Not updated")),
       catchError(error => throwError(error))
@@ -119,7 +118,7 @@ export class EventModelService {
 
   // tslint:disable-next-line:typedef
   remove(id: ID) {
-    return this.http.delete<number>('/api/event' + id, this.uiService.httpHeaderOptions()).pipe(
+    return this.http.delete<number>('/api/event/' + id, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
       tap(entities => entities === 1 ? this.eventStore.remove(id) : this.eventStore.setError("Not removed")),
       catchError(error => throwError(error))

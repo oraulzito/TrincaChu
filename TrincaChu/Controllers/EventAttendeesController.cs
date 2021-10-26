@@ -51,9 +51,7 @@ namespace TrincaChu.Controllers
                             lastName = uJoin.LastName,
                             email = uJoin.Email,
                             id = uJoin.Name,
-                            valueToPay = eaJoin.ConsumeAlcoholicDrink
-                                ? eaJoin.Event.TotalPerPersonWithAlcoholicDrink
-                                : eaJoin.Event.TotalPerPersonWithoutAlcoholicDrink
+                            paid = eaJoin.Paid,
                         }
                     );
 
@@ -160,6 +158,7 @@ namespace TrincaChu.Controllers
         ///     POST /updatePassword
         ///     {
         ///     "eventId": "string"
+        ///     "attendeeId": "string"
         ///     }
         /// </remarks>
         [HttpPut("pay")]
@@ -169,7 +168,7 @@ namespace TrincaChu.Controllers
             {
                 var eventAttendeeToBeUpdated = _uow.EventAttendeesRepository.Get(e =>
                     e.EventId == long.Parse(jObject["eventId"].ToString()) &&
-                    e.AttendeeId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier))
+                    e.AttendeeId == long.Parse(jObject["attendeeId"].ToString())
                 );
 
                 _eventService.UpdateCollectedValue(eventAttendeeToBeUpdated.EventId,

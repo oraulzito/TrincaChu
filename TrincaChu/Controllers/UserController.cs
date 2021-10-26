@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -27,6 +28,28 @@ namespace TrincaChu.Controllers
         {
             _uow = uow;
             _authenticatorService = authenticatorService;
+        }
+
+        [HttpGet("attendes/{eventId}")]
+        public ActionResult<User> GetAttendes(long eventId)
+        {
+            try
+            {
+                // FIXME get only users not in event yet
+                var attendees = _uow.EventAttendeesRepository.GetAll(ea => ea.EventId == eventId)
+                    .Select(ear => ear.AttendeeId);
+                
+                var users = _uow.UserRepository.GetAll()
+                    .Select(u => u)
+                    .Where(u => !attendees.Contains(u.Id))
+                    .Select(ru => new { ru.Id, ru.Email, ru.Name, ru.LastName });
+
+                return new OkObjectResult(users);
+            }
+            catch (Exception ex)
+            {
+                return new BadRequestObjectResult(new { error = ex.Message });
+            }
         }
 
         [HttpGet("profile")]
@@ -58,7 +81,7 @@ namespace TrincaChu.Controllers
             {
                 var user = _uow.UserRepository.Get(u =>
                     u.Email == email);
-                return user != null ;
+                return user != null;
             }
             catch (Exception ex)
             {
@@ -74,7 +97,7 @@ namespace TrincaChu.Controllers
             {
                 user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
                 _uow.UserRepository.Add(user);
-                
+
                 _uow.Commit();
 
                 _uow.Dispose();
@@ -101,11 +124,11 @@ namespace TrincaChu.Controllers
                     if (_authenticatorService.CheckPassword(user.Password, userToBeUpdated))
                     {
                         user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
-                        
+
                         _uow.UserRepository.Update(user);
-                        
+
                         _uow.Commit();
-                        
+
                         _uow.Dispose();
 
                         return NoContent();
@@ -143,11 +166,11 @@ namespace TrincaChu.Controllers
                     if (_authenticatorService.CheckPassword(passwords["oldPassword"].ToString(), userToBeUpdated))
                     {
                         userToBeUpdated.Password = BCrypt.Net.BCrypt.HashPassword(passwords["newPassword"].ToString());
-                        
+
                         _uow.UserRepository.Update(userToBeUpdated);
-                        
+
                         _uow.Commit();
-                        
+
                         _uow.Dispose();
 
                         return NoContent();
@@ -172,7 +195,7 @@ namespace TrincaChu.Controllers
                 _uow.UserRepository.Delete(userToBeDeleted);
 
                 _uow.Commit();
-                
+
                 _uow.Dispose();
 
                 return NoContent();

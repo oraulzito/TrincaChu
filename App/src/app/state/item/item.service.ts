@@ -17,17 +17,24 @@ export class ItemService {
   ) {
   }
 
-  // tslint:disable-next-line:typedef
   get() {
-    return this.http.get<Item[]>('/api/item/', this.uiService.httpHeaderOptions()).pipe(
+    return this.http.get<Item[]>('/api/item', this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
       setLoading(this.itemStore),
-      tap(releases => this.itemStore.set(releases)),
+      tap(entity => this.itemStore.set(entity)),
       catchError(error => throwError(error))
     );
   }
 
-  // tslint:disable-next-line:typedef
+  getEventItens(eventId) {
+    return this.http.get<Item[]>('/api/item/event/' + eventId, this.uiService.httpHeaderOptions()).pipe(
+      shareReplay(1),
+      setLoading(this.itemStore),
+      tap(entity => this.itemStore.set(entity)),
+      catchError(error => throwError(error))
+    );
+  }
+
   add(form: any) {
     const body = {
       name: form.name,
@@ -44,7 +51,6 @@ export class ItemService {
     );
   }
 
-  // tslint:disable-next-line:typedef
   update(id: number, form: any) {
     const body = {
       id: form.id,
@@ -62,7 +68,6 @@ export class ItemService {
     );
   }
 
-  // tslint:disable-next-line:typedef
   remove(id: ID) {
     return this.http.delete<number>('/api/item/' + id, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),

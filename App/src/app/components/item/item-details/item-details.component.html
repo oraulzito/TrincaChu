@@ -1,1 +1,53 @@
-<p>item-details works!</p>
+<nz-modal (nzOnCancel)="cancel()"
+          [(nzVisible)]="isVisible"
+          [nzTitle]=detailEvent.description>
+  <ng-container *nzModalContent>
+    <nz-collapse nzAccordion>
+      <nz-collapse-panel [nzHeader]="'Sobre o Evento'">
+        <p>Observações: {{detailEvent.observations}}</p>
+        <p>Local: {{detailEvent.whereItWillHappen}}</p>
+        <hr class="text-black w-100">
+        <p>Quando?</p>
+        <span><b>{{detailEvent.whenWillHappen  | date: 'dd/MM/yyyy, h:mm a'}}</b></span>
+        <p>Você pode confirmar presença até:</p>
+        <span><b>{{detailEvent.confirmPresenceUntilDateTime  | date: 'dd/MM/yyyy, h:mm a'}}</b></span>
+        <hr class="text-black w-100">
+        <span>Valor total: {{detailEvent.totalValue  |  currency:'BRL'}}</span><br>
+        <span>Total coletado: {{detailEvent.totalCollected | currency:'BRL'}}</span><br>
+        <span>Valor para quem vai beber: {{detailEvent.totalPerPersonWithAlcoholicDrink | currency:'BRL'}}</span><br>
+        <span>Valor para quem não bebe: {{detailEvent.totalPerPersonWithoutAlcoholicDrink | currency:'BRL'}}</span><br>
+      </nz-collapse-panel>
+      <!-- Itens -->
+      <nz-collapse-panel [nzHeader]="'Itens'">
+        <ul [nzDataSource]="itens" nz-list nzBordered nzSize="large">
+          <li *ngFor="let i of itens" nz-list-item nzNoFlex>
+            <ul nz-list-item-actions>
+              <nz-list-header>Valor total: {{detailEvent.totalValue  |  currency:'BRL'}}</nz-list-header>
+              <nz-list-item-action>
+                <a (click)="removeItem(i.id)">Remover</a>
+              </nz-list-item-action>
+            </ul>
+            <span nz-typography>{{ i.name }} - {{i.value| currency: 'BRL'}} - {{i.quantity}} unidades</span>
+          </li>
+        </ul>
+      </nz-collapse-panel>
+      <!--   Participantes   -->
+      <nz-collapse-panel [nzHeader]="'Participantes'">
+        <ul [nzDataSource]="attendees" nz-list nzBordered nzSize="large">
+          <li *ngFor="let a of attendees" nz-list-item nzNoFlex>
+            <ul nz-list-item-actions>
+              <nz-list-item-action *ngIf="a.id == user.id && !a.paid">
+                <a (click)="confirmPay(a.id,detailEvent.id)">Confirmar pagamento</a>
+              </nz-list-item-action>
+              <nz-list-item-action *ngIf="a.id == user.id">
+                <a (click)="removeAttendee(a.id)">Sair do evento</a>
+              </nz-list-item-action>
+            </ul>
+            <span nz-typography>{{ a.name }} {{a.lastName}}</span>
+          </li>
+        </ul>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </ng-container>
+</nz-modal>
+

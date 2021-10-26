@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using TrincaChu.Models;
 using TrincaChu.Repository;
@@ -19,7 +20,7 @@ namespace TrincaChu.Services
             return float.IsNaN(val) ? 0 : val;
         }
 
-    private float CalculatePercentageOfAlcoholicDrinksOnTotalPrice(long eventId)
+        private float CalculatePercentageOfAlcoholicDrinksOnTotalPrice(long eventId)
         {
             var alcoholicItems =
                 _uow.ItemRepository
@@ -28,7 +29,7 @@ namespace TrincaChu.Services
             var valueAlcoholicDrink = PreventNaN(alcoholicItems.Sum(item => item.Value * item.Quantity));
 
             var allItens = _uow.ItemRepository.GetAll(i => i.EventId == eventId);
-            
+
             var valueAll = PreventNaN(allItens.Sum(i => i.Value * i.Quantity));
 
             var percentage = valueAlcoholicDrink / valueAll;
@@ -40,7 +41,8 @@ namespace TrincaChu.Services
         {
             var percentageValue = CalculatePercentageOfAlcoholicDrinksOnTotalPrice(eventId);
 
-            var valueTotal = PreventNaN(_uow.ItemRepository.GetAll(i => i.EventId == eventId).Sum(i => i.Value * i.Quantity));
+            var valueTotal =
+                PreventNaN(_uow.ItemRepository.GetAll(i => i.EventId == eventId).Sum(i => i.Value * i.Quantity));
 
             var attendeeTotal = _uow.EventAttendeesRepository.GetAll(ea => ea.EventId == eventId).Count();
 
@@ -73,6 +75,26 @@ namespace TrincaChu.Services
             _uow.EventRepository.Update(eventToBeUpdated);
 
             _uow.Commit();
+        }
+
+        public IList<long> GetEventAdminIds(long eventID)
+        {
+            return _uow.EventAttendeesRepository.GetAll()
+                .Join(
+                    _uow.EventRepository.GetAll(),
+                    ea => ea.EventId,
+                    e => e.Id,
+                    (eaJoin, eJoin) => new { eaJoin, eJoin })
+                .Where(u => u.eaJoin.Admin && u.eaJoin.EventId == eventID)
+                .Select(ru => ru.eaJoin.AttendeeId)
+                .Distinct()
+                .ToList();
+        }
+
+        public int GetCountAttendees(long eventId)
+        {
+            return _uow.EventAttendeesRepository
+                .GetAll(ea => ea.EventId == eventId).Count();
         }
     }
 }

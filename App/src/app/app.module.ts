@@ -15,13 +15,14 @@ import {FormsModule} from "@angular/forms";
 import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
 import { environment } from '../environments/environment';
 import { ItemDetailsComponent } from './components/item/item-details/item-details.component';
+import {NzCollapseModule} from "ng-zorro-antd/collapse";
+import {NzModalModule} from "ng-zorro-antd/modal";
 
 registerLocaleData(pt);
 
 @NgModule({
   declarations: [
     AppComponent,
-    ItemDetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +34,9 @@ registerLocaleData(pt);
     NzMenuModule,
     NzGridModule,
     environment.production ? [] : AkitaNgDevtools.forRoot(),
+    NzCollapseModule,
+    NzModalModule,
+
   ],
   providers: [{provide: NZ_I18N, useValue: pt_BR}],
   bootstrap: [AppComponent]

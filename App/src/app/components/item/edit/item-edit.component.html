@@ -5,7 +5,7 @@
     <nz-collapse nzAccordion>
       <nz-collapse-panel [nzHeader]="'Editar Evento'">
         <form [formGroup]="itemEditForm" class="login-form p-3" nz-form>
-          <!--   description -->
+          <!-- description -->
           <nz-form-item>
             <nz-input-group>
               <label>Descrição</label>
@@ -13,7 +13,7 @@
                      nz-input placeholder="Descrição" type="text">
             </nz-input-group>
           </nz-form-item>
-          <!--   observations -->
+          <!-- observations -->
           <nz-form-item>
             <nz-input-group>
               <label>Observações</label>
@@ -21,7 +21,7 @@
                      nz-input placeholder="Observações" type="text">
             </nz-input-group>
           </nz-form-item>
-          <!--   whenWillHappen -->
+          <!-- whenWillHappen -->
           <nz-form-item>
             <nz-input-group>
               <label>Quando ocorrerá?</label>
@@ -29,7 +29,7 @@
                      nz-input type="datetime-local">
             </nz-input-group>
           </nz-form-item>
-          <!--   confirmPresenceUntilDateTime -->
+          <!-- confirmPresenceUntilDateTime -->
           <nz-form-item>
             <nz-input-group>
               <label>Confirmar presença até quando?</label>
@@ -37,11 +37,16 @@
                      nz-input type="datetime-local">
             </nz-input-group>
           </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <button (click)="edit(item.id)" nz-button nzType="primary">Salvar alterações</button>
+            </nz-form-control>
+          </nz-form-item>
         </form>
       </nz-collapse-panel>
       <nz-collapse-panel [nzHeader]="'Adicionar Itens'">
         <form [formGroup]="itemAddForm" class="login-form p-3" nz-form>
-          <!--   name -->
+          <!-- name -->
           <nz-form-item>
             <nz-input-group>
               <label>Nome</label>
@@ -49,7 +54,7 @@
                      nz-input placeholder="Nome" type="text">
             </nz-input-group>
           </nz-form-item>
-          <!--   value -->
+          <!-- value -->
           <nz-form-item>
             <nz-input-group>
               <label>Valor</label>
@@ -57,7 +62,7 @@
                      min="0" nz-input type="number">
             </nz-input-group>
           </nz-form-item>
-          <!--   quantity -->
+          <!-- quantity -->
           <nz-form-item>
             <nz-input-group>
               <label>Quantidade</label>
@@ -65,7 +70,7 @@
                      min="0" nz-input type="number">
             </nz-input-group>
           </nz-form-item>
-          <!--   category -->
+          <!-- category -->
           <nz-form-item>
             <nz-input-group>
               <label>Categoria</label>
@@ -86,10 +91,35 @@
       </nz-collapse-panel>
       <nz-collapse-panel [nzHeader]="'Adicionar Participantes'">
         <form [formGroup]="attendeeAddForm" class="login-form p-3" nz-form>
-          <!--   consumeAlcoholicDrink -->
+          <!-- admin -->
           <nz-form-item>
             <nz-input-group>
-              <label>Irá consumir bebidas alcolicas?</label>
+              <label>Quem participará do churrasco?</label>
+              <br>
+              <nz-select formControlName="attendeeId"
+                         nzPlaceHolder="Selecione o participante">
+                <nz-option *ngFor="let a of attendees" nzLabel="{{a.name}} {{a.lastName}}"
+                           nzValue="{{a.id}}"></nz-option>
+              </nz-select>
+            </nz-input-group>
+          </nz-form-item>
+          <!-- admin -->
+          <nz-form-item>
+            <nz-input-group>
+              <label>É um organizador do churraco?</label>
+              <br>
+              <nz-radio-group
+                formControlName="admin"
+                nzButtonStyle="solid">
+                <label nz-radio-button nzValue="true">Sim</label>
+                <label nz-radio-button nzValue="false">Não</label>
+              </nz-radio-group>
+            </nz-input-group>
+          </nz-form-item>
+          <!-- consumeAlcoholicDrink -->
+          <nz-form-item>
+            <nz-input-group>
+              <label>Irá consumir bebidas alcoólicas?</label>
               <br>
               <nz-radio-group
                 formControlName="consumeAlcoholicDrink"
@@ -99,7 +129,24 @@
               </nz-radio-group>
             </nz-input-group>
           </nz-form-item>
-
+          <!-- paid -->
+          <nz-form-item>
+            <nz-input-group>
+              <label>Já está pago?</label>
+              <br>
+              <nz-radio-group
+                formControlName="paid"
+                nzButtonStyle="solid">
+                <label nz-radio-button nzValue="true">Sim</label>
+                <label nz-radio-button nzValue="false">Não</label>
+              </nz-radio-group>
+            </nz-input-group>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-control>
+              <button (click)="addAttendee()" nz-button nzType="primary">Adicionar</button>
+            </nz-form-control>
+          </nz-form-item>
         </form>
       </nz-collapse-panel>
     </nz-collapse>

@@ -29,6 +29,11 @@ import {ItemAddComponent} from "../item/add/item-add.component";
 import {NzRadioModule} from "ng-zorro-antd/radio";
 import {ItemEditComponent} from "../item/edit/item-edit.component";
 import {NzCollapseModule} from "ng-zorro-antd/collapse";
+import {ItemDetailsComponent} from "../item/item-details/item-details.component";
+import {NzListModule} from "ng-zorro-antd/list";
+import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
+import {NzTypographyModule} from "ng-zorro-antd/typography";
+
 
 @NgModule({
   imports: [
@@ -58,6 +63,9 @@ import {NzCollapseModule} from "ng-zorro-antd/collapse";
     NzFormModule,
     NzRadioModule,
     NzCollapseModule,
+    NzListModule,
+    NzSkeletonModule,
+    NzTypographyModule,
   ],
   declarations: [
     DashboardComponent,
@@ -69,6 +77,7 @@ import {NzCollapseModule} from "ng-zorro-antd/collapse";
     DashboardPanelComponent,
     ItemAddComponent,
     ItemEditComponent,
+    ItemDetailsComponent
   ],
   exports: [
     DashboardComponent

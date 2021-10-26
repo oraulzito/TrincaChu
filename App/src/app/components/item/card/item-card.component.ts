@@ -3,6 +3,8 @@ import {EventModel} from "../../../state/event/event.model";
 import {EventAttendeeService} from "../../../state/eventAttendee/event-attendee.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserQuery} from "../../../state/user/user.query";
+import {UserState} from "../../../state/user/user.store";
+import {User} from "../../../state/user/user.model";
 
 
 @Component({
@@ -16,19 +18,19 @@ export class ItemCardComponent implements OnInit {
   eventAttendeeForm: FormGroup;
   isVisibleDetails = false;
   isVisibleEdit = false;
+  user: UserState;
 
   constructor(
     private userQuery: UserQuery,
     private eventAttendeeService: EventAttendeeService,
     private fb: FormBuilder,
   ) {
+    this.user = this.userQuery.getValue();
   }
 
 
   ngOnInit(): void {
     this.successPercentage = (this.eventModel.totalCollected * 100) / this.eventModel.totalValue
-
-
   }
 
   show() {

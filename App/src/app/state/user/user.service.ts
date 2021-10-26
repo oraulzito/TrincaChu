@@ -5,7 +5,7 @@ import {SessionStore} from '../session/session.store';
 import {Session} from "../session/session.model";
 import {tap} from "rxjs/operators";
 import {UiService} from "../ui/ui.service";
-import {FormControl, ValidationErrors, ValidatorFn} from "@angular/forms";
+import {FormControl, ValidationErrors} from "@angular/forms";
 import {Observable, Observer} from "rxjs";
 
 @Injectable({providedIn: 'root'})

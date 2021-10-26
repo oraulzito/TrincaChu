@@ -20,6 +20,7 @@ namespace TrincaChu.Models
         public DateTime ConfirmPresenceUntilDateTime { get; set; }
         public string Description { get; set; }
         public string Observations { get; set; }
+        public string WhereItWillHappen { get; set; }
         public float TotalValue { get; set; }
         public float TotalCollected { get; set; }
         public float TotalPerPersonWithAlcoholicDrink { get; set; }
