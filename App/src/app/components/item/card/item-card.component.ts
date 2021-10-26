@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserQuery} from "../../../state/user/user.query";
 import {UserState} from "../../../state/user/user.store";
 import {User} from "../../../state/user/user.model";
+import {EventService} from "../../../state/event/event.service";
 
 
 @Component({
@@ -22,6 +23,7 @@ export class ItemCardComponent implements OnInit {
 
   constructor(
     private userQuery: UserQuery,
+    private eventService: EventService,
     private eventAttendeeService: EventAttendeeService,
     private fb: FormBuilder,
   ) {
@@ -33,11 +35,15 @@ export class ItemCardComponent implements OnInit {
     this.successPercentage = (this.eventModel.totalCollected * 100) / this.eventModel.totalValue
   }
 
-  show() {
+  remove(eventId) {
+    this.eventService.remove(eventId).subscribe();
+  }
+
+  showDetails() {
     this.isVisibleDetails = !this.isVisibleDetails;
   }
 
-  edit() {
+  showEdit() {
     this.isVisibleEdit = !this.isVisibleEdit;
   }
 

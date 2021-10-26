@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {SessionService} from '../../../state/session/session.service';
 import {UserQuery} from "../../../state/user/user.query";
-import {EventModelService} from "../../../state/event/event.service";
+import {EventService} from "../../../state/event/event.service";
 import {UiQuery} from "../../../state/ui/ui.query";
 
 
@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
     private sessionService: SessionService,
-    private eventService: EventModelService,
+    private eventService: EventService,
     private userQuery: UserQuery,
     private uiQuery: UiQuery
   ) {

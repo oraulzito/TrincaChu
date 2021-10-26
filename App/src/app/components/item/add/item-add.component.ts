@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
-import {EventModelService} from "../../../state/event/event.service";
+import {EventService} from "../../../state/event/event.service";
 import {EventModel} from "../../../state/event/event.model";
 
 
@@ -18,7 +18,7 @@ export class ItemAddComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private eventService: EventModelService,
+    private eventService: EventService,
   ) {
   }
 

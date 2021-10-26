@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {EventModelService} from "../../../state/event/event.service";
+import {EventService} from "../../../state/event/event.service";
 import {EventQuery} from "../../../state/event/event.query";
 import {EventModel} from "../../../state/event/event.model";
 import {Item} from "../../../state/item/item.model";
@@ -29,7 +29,7 @@ export class ItemDetailsComponent implements OnInit {
 
   constructor(
     private eventQuery: EventQuery,
-    private eventService: EventModelService,
+    private eventService: EventService,
     private attendeeQuery: AttendeesQuery,
     private attendeesService: AttendeesService,
     private userQuery: UserQuery,

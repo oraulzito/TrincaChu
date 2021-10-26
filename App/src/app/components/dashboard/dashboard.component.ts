@@ -2,7 +2,7 @@ import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 
 import {UiQuery} from "../../state/ui/ui.query";
 import {UiService} from "../../state/ui/ui.service";
-import {EventModelService} from "../../state/event/event.service";
+import {EventService} from "../../state/event/event.service";
 import {UserService} from "../../state/user/user.service";
 import {AttendeesService} from "../../state/attendees/attendees.service";
 import {EventQuery} from "../../state/event/event.query";
@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private eventQuery: EventQuery,
-    private eventService: EventModelService,
+    private eventService: EventService,
     private attendeesService: AttendeesService,
     private uiService: UiService,
     private uiQuery: UiQuery,

@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {EventModel} from "../../../state/event/event.model";
-import {EventModelService} from "../../../state/event/event.service";
+import {EventService} from "../../../state/event/event.service";
 import {ItemService} from "../../../state/item/item.service";
 import {AttendeesQuery} from "../../../state/attendees/attendees.query";
 import {Attendees} from "../../../state/attendees/attendees.model";
@@ -29,7 +29,7 @@ export class ItemEditComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private eventService: EventModelService,
+    private eventService: EventService,
     private attendeeQuery: AttendeesQuery,
     private attendeesService: AttendeesService,
     private itemQuery: ItemQuery,

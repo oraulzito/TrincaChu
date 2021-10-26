@@ -8,7 +8,7 @@ import {EventStore} from "./event.store";
 import {UiService} from "../ui/ui.service";
 
 @Injectable({providedIn: 'root'})
-export class EventModelService {
+export class EventService {
 
   constructor(
     private eventStore: EventStore,
@@ -111,16 +111,16 @@ export class EventModelService {
 
     return this.http.put('/api/event/' + id, body, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
-      tap(entities => entities === 1 ? this.eventStore.update(id, body) : this.eventStore.setError("Not updated")),
+      tap(entities => this.eventStore.update(id, body)),
       catchError(error => throwError(error))
     );
   }
 
   // tslint:disable-next-line:typedef
   remove(id: ID) {
-    return this.http.delete<number>('/api/event/' + id, this.uiService.httpHeaderOptions()).pipe(
+    return this.http.delete('/api/event/' + id, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
-      tap(entities => entities === 1 ? this.eventStore.remove(id) : this.eventStore.setError("Not removed")),
+      tap(entities => this.eventStore.remove(id)),
       catchError(error => throwError(error))
     );
   }
