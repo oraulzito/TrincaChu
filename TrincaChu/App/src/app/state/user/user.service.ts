@@ -7,6 +7,7 @@ import {tap} from "rxjs/operators";
 import {UiService} from "../ui/ui.service";
 import {FormControl, ValidationErrors} from "@angular/forms";
 import {Observable, Observer} from "rxjs";
+import {User} from "./user.model";
 
 @Injectable({providedIn: 'root'})
 export class UserService {
@@ -29,9 +30,8 @@ export class UserService {
       lastName: value.lastName,
     };
 
-    return this.http.post<Session>('/api/user/login', body).pipe(
+    return this.http.post<User>('/api/user', body).pipe(
       tap(token => {
-          this.sessionStore.update(token);
           this.userStore.setLoading(false);
         },
         e => {
