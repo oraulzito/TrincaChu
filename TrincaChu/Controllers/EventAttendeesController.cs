@@ -62,8 +62,7 @@ namespace TrincaChu.Controllers
                 return new BadRequestObjectResult(new { error = ex.Message });
             }
         }
-        
-        
+
 
         [HttpGet("nonAttendes/{eventId}")]
         public ActionResult<User> GetNonAttendes(long eventId)
@@ -72,7 +71,7 @@ namespace TrincaChu.Controllers
             {
                 var attendees = _uow.EventAttendeesRepository.GetAll(ea => ea.EventId == eventId)
                     .Select(ear => ear.AttendeeId);
-                
+
                 var users = _uow.UserRepository.GetAll()
                     .Select(u => u)
                     .Where(u => !attendees.Contains(u.Id))
@@ -107,23 +106,24 @@ namespace TrincaChu.Controllers
             {
                 var eventAttendee = new EventAttendees();
 
-                eventAttendee.Attendee = _uow.UserRepository.Get(u => u.Id == long.Parse(jObject["attendeeId"].ToString()));
+                eventAttendee.Attendee =
+                    _uow.UserRepository.Get(u => u.Id == long.Parse(jObject["attendeeId"].ToString()));
                 eventAttendee.Event = _uow.EventRepository.Get(e => e.Id == long.Parse(jObject["eventId"].ToString()));
                 eventAttendee.EventId = long.Parse(jObject["attendeeId"].ToString());
                 eventAttendee.AttendeeId = long.Parse(jObject["eventId"].ToString());
                 eventAttendee.Admin = Boolean.Parse(jObject["admin"].ToString());
                 eventAttendee.ConsumeAlcoholicDrink = Boolean.Parse(jObject["consumeAlcoholicDrink"].ToString());
                 eventAttendee.Paid = Boolean.Parse(jObject["paid"].ToString());
-                
+
                 _uow.EventAttendeesRepository.Add(eventAttendee);
 
                 _uow.Commit();
 
                 _eventService.UpdateCalculateValues(eventAttendee.EventId);
-                
+
                 _uow.Dispose();
-                
-                return NoContent();
+
+                return new OkObjectResult(eventAttendee);
             }
             catch (Exception ex)
             {
@@ -162,9 +162,9 @@ namespace TrincaChu.Controllers
                 _uow.Commit();
 
                 _eventService.UpdateCalculateValues(eventAttendeeToBeUpdated.EventId);
-                
+
                 _uow.Dispose();
-                
+
                 return NoContent();
             }
             catch (Exception ex)
@@ -241,7 +241,7 @@ namespace TrincaChu.Controllers
                     _uow.EventAttendeesRepository.Update(eventAttendeeToBeUpdated);
 
                     _uow.Commit();
-                    
+
                     _uow.Dispose();
 
                     return NoContent();

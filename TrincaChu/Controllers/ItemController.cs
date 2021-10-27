@@ -101,7 +101,7 @@ namespace TrincaChu.Controllers
 
                 _uow.Dispose();
 
-                return NoContent();
+                return new OkObjectResult(item);
             }
             catch (Exception ex)
             {
