@@ -120,10 +120,10 @@ namespace TrincaChu.Controllers
                 _uow.Commit();
 
                 _eventService.UpdateCalculateValues(eventAttendee.EventId);
-
+                
                 _uow.Dispose();
 
-                return new OkObjectResult(eventAttendee);
+                return NoContent();
             }
             catch (Exception ex)
             {

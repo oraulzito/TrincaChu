@@ -32,6 +32,8 @@ namespace TrincaChu.Controllers
             _eventService = eventService;
         }
 
+        public object Object { get; set; }
+
 
         [HttpGet("{id}")]
         public ActionResult<ICollection<EventAttendees>> GetItem(long id)
@@ -72,11 +74,11 @@ namespace TrincaChu.Controllers
         ///     Sample request:
         ///     POST /updatePassword
         ///     {
-        ///         "name": "string",
-        ///         "value": 0,
-        ///         "quantity": 0,
-        ///         "eventId": 0,
-        ///         "category": 0,
+        ///     "name": "string",
+        ///     "value": 0,
+        ///     "quantity": 0,
+        ///     "eventId": 0,
+        ///     "category": 0,
         ///     }
         /// </remarks>
         [HttpPost]
@@ -85,7 +87,7 @@ namespace TrincaChu.Controllers
             try
             {
                 var item = new Item();
-                
+
                 item.Name = jObject["name"].ToString();
                 item.Value = float.Parse(jObject["value"].ToString());
                 item.Quantity = Convert.ToInt32(jObject["quantity"].ToString());
@@ -101,15 +103,13 @@ namespace TrincaChu.Controllers
 
                 _uow.Dispose();
 
-                return new OkObjectResult(item);
+                return NoContent();
             }
             catch (Exception ex)
             {
                 return new BadRequestObjectResult(new { message = ex.Message });
             }
         }
-
-        public object Object { get; set; }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] Item item)
