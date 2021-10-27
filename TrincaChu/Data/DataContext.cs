@@ -31,12 +31,12 @@ namespace TrincaChu.Data
 
             modelBuilder.Entity<Item>()
                 .HasOne(e => e.Event)
-                .WithMany(ea => ea.Itens)
+                .WithMany(ea => ea.Items)
                 .HasForeignKey(ei => ei.EventId);
-            modelBuilder.Entity<Event>()
-                .HasMany(e => e.Itens)
-                .WithOne(ea => ea.Event)
-                .HasForeignKey(ei => ei.EventId);
+            // modelBuilder.Entity<Event>()
+            //     .HasMany(e => e.Items)
+            //     .WithOne(ea => ea.Event)
+            //     .HasForeignKey(ei => ei.EventId);
         }
     }
 }

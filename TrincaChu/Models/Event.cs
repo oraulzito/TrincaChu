@@ -10,7 +10,7 @@ namespace TrincaChu.Models
         public Event()
         {
             Attendees = new HashSet<EventAttendees>();
-            Itens = new HashSet<Item>();
+            Items = new HashSet<Item>();
         }
 
 
@@ -27,6 +27,6 @@ namespace TrincaChu.Models
         public float TotalPerPersonWithoutAlcoholicDrink { get; set; }
 
         public ICollection<EventAttendees> Attendees { get; private set; }
-        public ICollection<Item> Itens { get; private set; }
+        public ICollection<Item> Items { get; private set; }
     }
 }

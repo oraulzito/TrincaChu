@@ -28,9 +28,9 @@ namespace TrincaChu.Services
 
             var valueAlcoholicDrink = PreventNaN(alcoholicItems.Sum(item => item.Value * item.Quantity));
 
-            var allItens = _uow.ItemRepository.GetAll(i => i.EventId == eventId);
+            var allItems = _uow.ItemRepository.GetAll(i => i.EventId == eventId);
 
-            var valueAll = PreventNaN(allItens.Sum(i => i.Value * i.Quantity));
+            var valueAll = PreventNaN(allItems.Sum(i => i.Value * i.Quantity));
 
             var percentage = valueAlcoholicDrink / valueAll;
 
@@ -77,7 +77,7 @@ namespace TrincaChu.Services
             _uow.Commit();
         }
 
-        public IList<long> GetEventAdminIds(long eventID)
+        public IList<long> GetEventAdminIds(long eventId)
         {
             return _uow.EventAttendeesRepository.GetAll()
                 .Join(
@@ -85,7 +85,7 @@ namespace TrincaChu.Services
                     ea => ea.EventId,
                     e => e.Id,
                     (eaJoin, eJoin) => new { eaJoin, eJoin })
-                .Where(u => u.eaJoin.Admin && u.eaJoin.EventId == eventID)
+                .Where(u => u.eaJoin.Admin && u.eaJoin.EventId == eventId)
                 .Select(ru => ru.eaJoin.AttendeeId)
                 .Distinct()
                 .ToList();

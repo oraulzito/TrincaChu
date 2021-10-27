@@ -12,13 +12,13 @@ namespace TrincaChu.Models
         }
 
         [Key] public long Id { get; set; }
-       
+
         public string Name { get; set; }
         public float Value { get; set; }
         public int Quantity { get; set; }
-        public long EventId { get; set; }
+        [ForeignKey("Event")] public long EventId { get; set; }
         public Category Category { get; set; }
-        
+
         public virtual Event Event { get; set; }
     }
 

@@ -50,14 +50,14 @@ namespace TrincaChu.Controllers
         }
 
         [HttpGet("event/{id}")]
-        public ActionResult<ICollection<EventAttendees>> GetEventItens(long id)
+        public ActionResult<ICollection<EventAttendees>> GetEventItems(long id)
         {
             try
             {
-                var eventItens = _uow.ItemRepository
+                var eventItems = _uow.ItemRepository
                     .GetAll(ea => ea.EventId == id);
 
-                return Ok(eventItens);
+                return Ok(eventItems);
             }
             catch (Exception ex)
             {
@@ -85,9 +85,9 @@ namespace TrincaChu.Controllers
             try
             {
                 var item = new Item();
-
+                
                 item.Name = jObject["name"].ToString();
-                item.Value = long.Parse(jObject["value"].ToString());
+                item.Value = float.Parse(jObject["value"].ToString());
                 item.Quantity = Convert.ToInt32(jObject["quantity"].ToString());
                 item.EventId = long.Parse(jObject["eventId"].ToString());
                 item.Event = _uow.EventRepository.Get(e => e.Id == long.Parse(jObject["eventId"].ToString()));
