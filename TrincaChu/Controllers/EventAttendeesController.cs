@@ -47,11 +47,13 @@ namespace TrincaChu.Controllers
                         u => u.Id,
                         (eaJoin, uJoin) => new
                         {
+                            id = uJoin.Id,
                             name = uJoin.Name,
                             lastName = uJoin.LastName,
                             email = uJoin.Email,
-                            id = uJoin.Name,
                             paid = eaJoin.Paid,
+                            admin = eaJoin.Admin,
+                            consumeAlcoholicDrink = eaJoin.ConsumeAlcoholicDrink,
                         }
                     );
 
@@ -120,7 +122,7 @@ namespace TrincaChu.Controllers
                 _uow.Commit();
 
                 _eventService.UpdateCalculateValues(eventAttendee.EventId);
-                
+
                 _uow.Dispose();
 
                 return NoContent();
@@ -261,9 +263,7 @@ namespace TrincaChu.Controllers
             try
             {
                 var attendee = _uow.EventAttendeesRepository.Get(
-                    a =>
-                        (a.AttendeeId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)) && a.Admin) ||
-                        a.AttendeeId == long.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)));
+                    a => a.AttendeeId == id);
 
                 _uow.EventAttendeesRepository.Delete(attendee);
 
