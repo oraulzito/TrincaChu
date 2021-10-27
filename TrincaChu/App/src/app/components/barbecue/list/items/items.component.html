@@ -1,7 +1,7 @@
 <ul [nzDataSource]="items" nz-list nzBordered nzSize="large">
   <li *ngFor="let i of items" nz-list-item nzNoFlex>
     <ul nz-list-item-actions>
-      <nz-list-header>Valor total: {{totalValueBarbecue  |  currency:'BRL'}}</nz-list-header>
+      <nz-list-header>Valor total: {{barbecue.totalValue  |  currency:'BRL'}}</nz-list-header>
       <nz-list-item-action>
         <a (click)="removeItem(i.id)">Remover</a>
       </nz-list-item-action>

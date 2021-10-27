@@ -2,7 +2,6 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Attendees} from "../../../../state/attendees/attendees.model";
 import {UserQuery} from "../../../../state/user/user.query";
 import {UserState} from "../../../../state/user/user.store";
-import {ID} from "@datorama/akita";
 import {EventAttendeeService} from "../../../../state/eventAttendee/event-attendee.service";
 import {EventAttendeeQuery} from "../../../../state/eventAttendee/event-attendee.query";
 import {AttendeesService} from "../../../../state/attendees/attendees.service";

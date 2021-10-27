@@ -5,12 +5,9 @@ import {EventModel} from "../../../state/event/event.model";
 import {Item} from "../../../state/item/item.model";
 import {AttendeesQuery} from "../../../state/attendees/attendees.query";
 import {AttendeesService} from "../../../state/attendees/attendees.service";
-import {ItemQuery} from "../../../state/item/item.query";
-import {ItemService} from "../../../state/item/item.service";
 import {Attendees} from "../../../state/attendees/attendees.model";
 import {UserQuery} from "../../../state/user/user.query";
 import {UserState} from "../../../state/user/user.store";
-import {UserService} from "../../../state/user/user.service";
 import {EventAttendeeService} from "../../../state/eventAttendee/event-attendee.service";
 
 @Component({
@@ -35,19 +32,13 @@ export class BarbecueDetailsComponent implements OnInit {
     private attendeesService: AttendeesService,
     private eventAttendeesService: EventAttendeeService,
     private userQuery: UserQuery,
-    private userService: UserService,
-    private itemQuery: ItemQuery,
-    private itemService: ItemService,
   ) {
   }
 
   ngOnInit(): void {
     this.user = this.userQuery.getValue();
-    this.itemQuery.selectAll().subscribe(i => this.items = i);
 
-    this.itemService.getEventItens(this.id).subscribe();
-    this.eventService.get(this.id).subscribe(e => this.barbecueDetails = e);
-    this.eventAttendeesService.get(this.id).subscribe(r => this.barbecueDetails.attendees = r);
+    this.eventQuery.selectActive().subscribe(e => this.barbecueDetails = e);
   }
 
   cancel() {

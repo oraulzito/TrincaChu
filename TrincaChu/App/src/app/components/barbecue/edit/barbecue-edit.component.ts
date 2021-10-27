@@ -39,16 +39,12 @@ export class BarbecueEditComponent implements OnInit {
     private eventAttendeeQuery: EventAttendeeQuery,
     private itemQuery: ItemQuery,
     private itemService: ItemService,
-    private userQuery: UserQuery,
   ) {
   }
 
   ngOnInit() {
     this.itemService.getEventItens(this.barbecueEdit.id).subscribe();
     this.attendeesService.getNonAttendees(this.barbecueEdit.id).subscribe();
-
-    this.itemQuery.selectAll().subscribe(i => this.itens = i);
-    this.attendeeQuery.selectAll().subscribe(a => this.attendees = a);
 
     this.barbecueEditForm = this.fb.group({
       whenWillHappen: new FormControl(this.barbecueEdit.whenWillHappen),

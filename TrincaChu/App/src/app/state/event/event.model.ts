@@ -17,7 +17,7 @@ export interface EventModel {
   attendeeTotal: number;
   attendees: Attendees[];
   attendeesAdminIds: ID[];
-  itens: Item[];
+  items: Item[];
 }
 
 export function createEvent(params: Partial<Event>) {

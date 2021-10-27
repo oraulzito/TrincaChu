@@ -5,7 +5,7 @@
         <a (click)="confirmPay(a.id,barbecue.id)">Confirmar pagamento</a>
       </nz-list-item-action>
       <nz-list-item-action *ngIf="a.id == user.id || barbecue.attendeesAdminIds.includes(user.id)">
-      <a (click)="removeAttendee(a.id)">Sair do evento</a>
+        <a (click)="removeAttendee(a.id)">Sair do evento</a>
       </nz-list-item-action>
     </ul>
     <span nz-typography>{{ a.name }} {{a.lastName}}</span>

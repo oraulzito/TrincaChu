@@ -4,8 +4,8 @@ import {EventAttendeeService} from "../../../state/eventAttendee/event-attendee.
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {UserQuery} from "../../../state/user/user.query";
 import {UserState} from "../../../state/user/user.store";
-import {User} from "../../../state/user/user.model";
 import {EventService} from "../../../state/event/event.service";
+import {EventStore} from "../../../state/event/event.store";
 
 
 @Component({
@@ -24,6 +24,7 @@ export class BarbecueCardComponent implements OnInit {
   constructor(
     private userQuery: UserQuery,
     private eventService: EventService,
+    private eventStore: EventStore,
     private eventAttendeeService: EventAttendeeService,
     private fb: FormBuilder,
   ) {
@@ -39,11 +40,20 @@ export class BarbecueCardComponent implements OnInit {
     this.eventService.remove(eventId).subscribe();
   }
 
-  showDetails() {
+  showDetails(id) {
+    this.eventStore.setActive(id);
     this.isVisibleDetails = !this.isVisibleDetails;
   }
 
   showEdit() {
+    this.isVisibleEdit = !this.isVisibleEdit;
+  }
+
+  hideDetails() {
+    this.isVisibleDetails = !this.isVisibleDetails;
+  }
+
+  hideEdit() {
     this.isVisibleEdit = !this.isVisibleEdit;
   }
 

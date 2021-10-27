@@ -1,4 +1,4 @@
-<nz-modal (nzOnCancel)="cancel()"
+<nz-modal (nzOnCancel)="cancel()" (nzOnOk)="cancel()"
           [(nzVisible)]="isVisible"
           nzTitle="Editar o churrasco">
   <ng-container *nzModalContent>
@@ -88,7 +88,7 @@
             </nz-form-control>
           </nz-form-item>
         </form>
-        <app-items [totalValueBarbecue]="barbecueEdit.totalValue"></app-items>
+        <app-items [barbecue]="barbecueEdit"></app-items>
       </nz-collapse-panel>
       <nz-collapse-panel [nzHeader]="'Adicionar Participantes'">
         <form [formGroup]="attendeeAddForm" class="login-form p-3" nz-form>
