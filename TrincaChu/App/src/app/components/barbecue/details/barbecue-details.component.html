@@ -1,0 +1,31 @@
+<nz-modal (nzOnCancel)="cancel()"
+          [(nzVisible)]="isVisible"
+          [nzTitle]=barbecueDetails.description>
+  <ng-container *nzModalContent>
+    <nz-collapse nzAccordion>
+      <nz-collapse-panel [nzHeader]="'Sobre o Evento'">
+        <p>Observações: {{barbecueDetails.observations}}</p>
+        <p>Local: {{barbecueDetails.whereItWillHappen}}</p>
+        <hr class="text-black w-100">
+        <p>Quando?</p>
+        <span><b>{{barbecueDetails.whenWillHappen  | date: 'dd/MM/yyyy, h:mm a'}}</b></span>
+        <p>Você pode confirmar presença até:</p>
+        <span><b>{{barbecueDetails.confirmPresenceUntilDateTime  | date: 'dd/MM/yyyy, h:mm a'}}</b></span>
+        <hr class="text-black w-100">
+        <span>Valor total: {{barbecueDetails.totalValue  |  currency:'BRL'}}</span><br>
+        <span>Total coletado: {{barbecueDetails.totalCollected | currency:'BRL'}}</span><br>
+        <span>Valor para quem vai beber: {{barbecueDetails.totalPerPersonWithAlcoholicDrink | currency:'BRL'}}</span><br>
+        <span>Valor para quem não bebe: {{barbecueDetails.totalPerPersonWithoutAlcoholicDrink | currency:'BRL'}}</span><br>
+      </nz-collapse-panel>
+      <!-- Itens -->
+      <nz-collapse-panel [nzHeader]="'Itens'">
+        <app-items [totalValueBarbecue]="barbecueDetails.totalValue"></app-items>
+      </nz-collapse-panel>
+      <!--   Participantes   -->
+      <nz-collapse-panel [nzHeader]="'Participantes'">
+        <app-attendees [barbecue]="barbecueDetails"></app-attendees>
+      </nz-collapse-panel>
+    </nz-collapse>
+  </ng-container>
+</nz-modal>
+

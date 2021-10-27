@@ -12,7 +12,7 @@
   </ng-template>
   <ng-template [ngIf]="selectedEvents.length > 0 ">
     <ng-template [ngForOf]="selectedEvents" let-ev let-i="index" ngFor>
-      <app-item-card [eventModel]="ev" nz-col nzMd="8" nzSm="12" nzXl="6" nzXs="24"></app-item-card>
+      <app-barbecue-card [barbecue]="ev" nz-col nzMd="8" nzSm="12" nzXl="6" nzXs="24"></app-barbecue-card>
     </ng-template>
   </ng-template>
   </ng-template>

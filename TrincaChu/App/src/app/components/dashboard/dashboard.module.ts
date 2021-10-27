@@ -8,6 +8,9 @@ import {HeaderComponent} from './header/header.component';
 import {DashboardMobileComponent} from './dashboard-mobile/dashboard-mobile.component';
 import {DashboardDesktopComponent} from './dashboard-desktop/dashboard-desktop.component';
 import {FooterComponent} from "./footer/footer.component";
+import {DashboardPanelComponent} from './dashboard-panel/dashboard-panel.component';
+import {ItemsComponent} from "../barbecue/list/items/items.component";
+import {AttendeesComponent} from "../barbecue/list/attendees/attendees.component";
 
 import {NzCardModule} from 'ng-zorro-antd/card';
 import {NzGridModule} from 'ng-zorro-antd/grid';
@@ -23,17 +26,15 @@ import {NzFormModule} from 'ng-zorro-antd/form';
 import {NzInputModule} from 'ng-zorro-antd/input';
 import {NzSpinModule} from "ng-zorro-antd/spin";
 import {NzModalModule} from "ng-zorro-antd/modal";
-import {ItemCardComponent} from "../item/card/item-card.component";
-import {DashboardPanelComponent} from './dashboard-panel/dashboard-panel.component';
-import {ItemAddComponent} from "../item/add/item-add.component";
 import {NzRadioModule} from "ng-zorro-antd/radio";
-import {ItemEditComponent} from "../item/edit/item-edit.component";
 import {NzCollapseModule} from "ng-zorro-antd/collapse";
-import {ItemDetailsComponent} from "../item/item-details/item-details.component";
 import {NzListModule} from "ng-zorro-antd/list";
 import {NzSkeletonModule} from "ng-zorro-antd/skeleton";
 import {NzTypographyModule} from "ng-zorro-antd/typography";
-
+import {BarbecueAddComponent} from "../barbecue/add/barbecue-add.component";
+import {BarbecueEditComponent} from "../barbecue/edit/barbecue-edit.component";
+import {BarbecueDetailsComponent} from "../barbecue/details/barbecue-details.component";
+import {BarbecueCardComponent} from "../barbecue/card/barbecue-card.component";
 
 @NgModule({
   imports: [
@@ -73,11 +74,13 @@ import {NzTypographyModule} from "ng-zorro-antd/typography";
     DashboardMobileComponent,
     DashboardDesktopComponent,
     FooterComponent,
-    ItemCardComponent,
     DashboardPanelComponent,
-    ItemAddComponent,
-    ItemEditComponent,
-    ItemDetailsComponent
+    BarbecueAddComponent,
+    BarbecueEditComponent,
+    BarbecueDetailsComponent,
+    BarbecueCardComponent,
+    ItemsComponent,
+    AttendeesComponent
   ],
   exports: [
     DashboardComponent

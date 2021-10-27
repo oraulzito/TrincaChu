@@ -17,6 +17,14 @@ export class EventAttendeeService {
     private http: HttpClient) {
   }
 
+  get(eventId) {
+    return this.http.get<EventAttendee[]>('/api/attendees/' + eventId, this.uiService.httpHeaderOptions()).pipe(
+      shareReplay(1),
+      tap(entities => this.eventAttendeeStore.set(entities)),
+      catchError(error => throwError(error))
+    );
+  }
+
   // tslint:disable-next-line:typedef
   add(form: any) {
 
@@ -57,7 +65,9 @@ export class EventAttendeeService {
   remove(id: ID) {
     return this.http.delete<number>('/api/attendees/' + id, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
-      tap(entities => entities === 1 ? this.eventAttendeeStore.remove(id) : this.eventAttendeeStore.setError("Not removed")),
+      tap(entities => {
+        this.eventAttendeeStore.remove(id);
+      }),
       catchError(error => throwError(error))
     );
   }

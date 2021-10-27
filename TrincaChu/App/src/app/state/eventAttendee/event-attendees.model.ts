@@ -1,9 +1,12 @@
-import {User} from "../user/user.model";
+import {ID} from "@datorama/akita";
 
 export interface EventAttendee {
-  Attendee: User;
-  admin: boolean;
+  id: ID;
+  name: string;
+  lastName: string;
+  email: string;
   paid: boolean;
+  admin: boolean;
   consumeAlcoholicDrink: boolean;
 }
 

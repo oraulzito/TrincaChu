@@ -9,22 +9,25 @@ import {AttendeesService} from "../../../state/attendees/attendees.service";
 import {ItemQuery} from "../../../state/item/item.query";
 import {Item} from "../../../state/item/item.model";
 import {UserQuery} from "../../../state/user/user.query";
-import {UserState} from "../../../state/user/user.store";
+import {EventAttendeeService} from "../../../state/eventAttendee/event-attendee.service";
+import {EventAttendeeQuery} from "../../../state/eventAttendee/event-attendee.query";
 
 @Component({
-  selector: 'app-item-edit',
-  templateUrl: './item-edit.component.html',
-  styleUrls: ['./item-edit.component.css']
+  selector: 'app-barbecue-edit',
+  templateUrl: './barbecue-edit.component.html',
+  styleUrls: ['./barbecue-edit.component.css']
 })
-export class ItemEditComponent implements OnInit {
-  itemEditForm: FormGroup;
+export class BarbecueEditComponent implements OnInit {
+  barbecueEditForm: FormGroup;
   itemAddForm: FormGroup;
   attendeeAddForm: FormGroup;
+
   attendees: Attendees[];
+
   itens: Item[];
 
   @Output() savedEdit = new EventEmitter();
-  @Input() item: EventModel;
+  @Input() barbecueEdit: EventModel;
   @Input() isVisible = false;
 
   constructor(
@@ -32,6 +35,8 @@ export class ItemEditComponent implements OnInit {
     private eventService: EventService,
     private attendeeQuery: AttendeesQuery,
     private attendeesService: AttendeesService,
+    private eventAttendeeService: EventAttendeeService,
+    private eventAttendeeQuery: EventAttendeeQuery,
     private itemQuery: ItemQuery,
     private itemService: ItemService,
     private userQuery: UserQuery,
@@ -39,30 +44,30 @@ export class ItemEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.attendeesService.getNonAttendees(this.item.id).subscribe();
-    this.itemService.getEventItens(this.item.id).subscribe();
+    this.itemService.getEventItens(this.barbecueEdit.id).subscribe();
+    this.attendeesService.getNonAttendees(this.barbecueEdit.id).subscribe();
 
     this.itemQuery.selectAll().subscribe(i => this.itens = i);
     this.attendeeQuery.selectAll().subscribe(a => this.attendees = a);
 
-    this.itemEditForm = this.fb.group({
-      whenWillHappen: new FormControl(this.item.whenWillHappen),
-      whereItWillHappen: new FormControl(this.item.whereItWillHappen),
-      confirmPresenceUntilDateTime: new FormControl(this.item.confirmPresenceUntilDateTime),
-      description: new FormControl(this.item.description),
-      observations: new FormControl(this.item.observations),
+    this.barbecueEditForm = this.fb.group({
+      whenWillHappen: new FormControl(this.barbecueEdit.whenWillHappen),
+      whereItWillHappen: new FormControl(this.barbecueEdit.whereItWillHappen),
+      confirmPresenceUntilDateTime: new FormControl(this.barbecueEdit.confirmPresenceUntilDateTime),
+      description: new FormControl(this.barbecueEdit.description),
+      observations: new FormControl(this.barbecueEdit.observations),
     });
 
     this.itemAddForm = this.fb.group({
       name: new FormControl(''),
       value: new FormControl(0),
       quantity: new FormControl(0),
-      eventId: new FormControl(this.item.id),
-      category: new FormControl(''),
+      eventId: new FormControl(this.barbecueEdit.id),
+      category: new FormControl(0),
     });
 
     this.attendeeAddForm = this.fb.group({
-      eventId: new FormControl(this.item.id),
+      eventId: new FormControl(this.barbecueEdit.id),
       attendeeId: new FormControl(),
       admin: new FormControl(false),
       consumeAlcoholicDrink: new FormControl(),
@@ -71,15 +76,19 @@ export class ItemEditComponent implements OnInit {
   }
 
   addItem() {
-    this.itemService.add(this.itemAddForm.value).subscribe();
+    this.itemService.add(this.itemAddForm.value).subscribe(
+      () => this.itemAddForm.clearValidators()
+    );
   }
 
   addAttendee() {
-    this.attendeesService.add(this.attendeeAddForm.value).subscribe();
+    this.attendeesService.add(this.attendeeAddForm.value).subscribe(
+      () => this.attendeeAddForm.clearValidators()
+    );
   }
 
   edit(id) {
-    this.eventService.update(id, this.itemEditForm.value).subscribe();
+    this.eventService.update(id, this.barbecueEditForm.value).subscribe();
   }
 
   delete(id) {

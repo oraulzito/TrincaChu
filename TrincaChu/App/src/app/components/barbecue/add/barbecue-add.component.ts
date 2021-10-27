@@ -5,12 +5,12 @@ import {EventModel} from "../../../state/event/event.model";
 
 
 @Component({
-  selector: 'app-item-add',
-  templateUrl: './item-add.component.html',
-  styleUrls: ['./item-add.component.css']
+  selector: 'app-barbecue-add',
+  templateUrl: './barbecue-add.component.html',
+  styleUrls: ['./barbecue-add.component.css']
 })
-export class ItemAddComponent implements OnInit {
-  itemForm: FormGroup;
+export class BarbecueAddComponent implements OnInit {
+  barbecueForm: FormGroup;
 
   @Output() saved = new EventEmitter();
   @Input() item?: EventModel;
@@ -24,7 +24,7 @@ export class ItemAddComponent implements OnInit {
 
   ngOnInit() {
 
-    this.itemForm = this.fb.group({
+    this.barbecueForm = this.fb.group({
       whenWillHappen: new FormControl(''),
       confirmPresenceUntilDateTime: new FormControl(''),
       description: new FormControl(''),
@@ -34,7 +34,7 @@ export class ItemAddComponent implements OnInit {
   }
 
   save() {
-    return this.eventService.add(this.itemForm.value).subscribe(
+    return this.eventService.add(this.barbecueForm.value).subscribe(
       r => {
         this.saved.emit(false);
       }

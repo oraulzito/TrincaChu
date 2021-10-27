@@ -12,11 +12,12 @@ import {AppRoutingModule} from "./app-routing.module";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
-import { AkitaNgDevtools } from '@datorama/akita-ngdevtools';
-import { environment } from '../environments/environment';
-import { ItemDetailsComponent } from './components/item/item-details/item-details.component';
+import {AkitaNgDevtools} from '@datorama/akita-ngdevtools';
+import {environment} from '../environments/environment';
 import {NzCollapseModule} from "ng-zorro-antd/collapse";
 import {NzModalModule} from "ng-zorro-antd/modal";
+import {NzListModule} from "ng-zorro-antd/list";
+import {NzTypographyModule} from "ng-zorro-antd/typography";
 
 registerLocaleData(pt);
 
@@ -36,6 +37,8 @@ registerLocaleData(pt);
     environment.production ? [] : AkitaNgDevtools.forRoot(),
     NzCollapseModule,
     NzModalModule,
+    NzListModule,
+    NzTypographyModule,
 
   ],
   providers: [{provide: NZ_I18N, useValue: pt_BR}],

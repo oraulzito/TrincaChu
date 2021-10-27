@@ -4,7 +4,7 @@
   <ng-container *nzModalContent>
     <nz-collapse nzAccordion>
       <nz-collapse-panel [nzHeader]="'Editar Evento'">
-        <form [formGroup]="itemEditForm" class="login-form p-3" nz-form>
+        <form [formGroup]="barbecueEditForm" class="login-form p-3" nz-form>
           <!-- description -->
           <nz-form-item>
             <nz-input-group>
@@ -39,7 +39,7 @@
           </nz-form-item>
           <nz-form-item>
             <nz-form-control>
-              <button (click)="edit(item.id)" nz-button nzType="primary">Salvar alterações</button>
+              <button (click)="edit(barbecueEdit.id)" nz-button nzType="primary">Salvar alterações</button>
             </nz-form-control>
           </nz-form-item>
         </form>
@@ -88,6 +88,7 @@
             </nz-form-control>
           </nz-form-item>
         </form>
+        <app-items [totalValueBarbecue]="barbecueEdit.totalValue"></app-items>
       </nz-collapse-panel>
       <nz-collapse-panel [nzHeader]="'Adicionar Participantes'">
         <form [formGroup]="attendeeAddForm" class="login-form p-3" nz-form>
@@ -148,6 +149,7 @@
             </nz-form-control>
           </nz-form-item>
         </form>
+        <app-attendees [barbecue]="barbecueEdit"></app-attendees>
       </nz-collapse-panel>
     </nz-collapse>
   </ng-container>

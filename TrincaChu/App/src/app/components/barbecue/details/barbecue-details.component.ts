@@ -11,20 +11,21 @@ import {Attendees} from "../../../state/attendees/attendees.model";
 import {UserQuery} from "../../../state/user/user.query";
 import {UserState} from "../../../state/user/user.store";
 import {UserService} from "../../../state/user/user.service";
+import {EventAttendeeService} from "../../../state/eventAttendee/event-attendee.service";
 
 @Component({
-  selector: 'app-item-details',
-  templateUrl: './item-details.component.html',
-  styleUrls: ['./item-details.component.css']
+  selector: 'app-barbecue-details',
+  templateUrl: './barbecue-details.component.html',
+  styleUrls: ['./barbecue-details.component.css']
 })
-export class ItemDetailsComponent implements OnInit {
+export class BarbecueDetailsComponent implements OnInit {
   @Output() savedDetails = new EventEmitter();
   @Input() id;
   @Input() isVisible = false;
 
-  detailEvent: EventModel;
+  barbecueDetails: EventModel;
   attendees: Attendees[];
-  itens: Item[];
+  items: Item[];
   user: UserState;
 
   constructor(
@@ -32,6 +33,7 @@ export class ItemDetailsComponent implements OnInit {
     private eventService: EventService,
     private attendeeQuery: AttendeesQuery,
     private attendeesService: AttendeesService,
+    private eventAttendeesService: EventAttendeeService,
     private userQuery: UserQuery,
     private userService: UserService,
     private itemQuery: ItemQuery,
@@ -40,25 +42,12 @@ export class ItemDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.eventService.get(this.id).subscribe(e => this.detailEvent = e);
-
-    this.attendeesService.get(this.id).subscribe(r => this.detailEvent.attendees = r);
-    this.itemService.getEventItens(this.id).subscribe();
-
-    this.itemQuery.selectAll().subscribe(i => this.itens = i);
     this.user = this.userQuery.getValue();
-  }
+    this.itemQuery.selectAll().subscribe(i => this.items = i);
 
-  confirmPay(attendeeId, eventId) {
-    this.attendeesService.pay(attendeeId, eventId).subscribe();
-  }
-
-  removeAttendee(attendeeId) {
-    this.attendeesService.remove(attendeeId).subscribe();
-  }
-
-  removeItem(id) {
-
+    this.itemService.getEventItens(this.id).subscribe();
+    this.eventService.get(this.id).subscribe(e => this.barbecueDetails = e);
+    this.eventAttendeesService.get(this.id).subscribe(r => this.barbecueDetails.attendees = r);
   }
 
   cancel() {

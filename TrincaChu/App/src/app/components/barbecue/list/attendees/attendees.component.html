@@ -1,0 +1,13 @@
+<ul [nzDataSource]="attendees" nz-list nzBordered nzSize="large">
+  <li *ngFor="let a of attendees" nz-list-item nzNoFlex>
+    <ul nz-list-item-actions>
+      <nz-list-item-action *ngIf="a.id == user.id && !a.paid">
+        <a (click)="confirmPay(a.id,barbecue.id)">Confirmar pagamento</a>
+      </nz-list-item-action>
+      <nz-list-item-action *ngIf="a.id == user.id || barbecue.attendeesAdminIds.includes(user.id)">
+      <a (click)="removeAttendee(a.id)">Sair do evento</a>
+      </nz-list-item-action>
+    </ul>
+    <span nz-typography>{{ a.name }} {{a.lastName}}</span>
+  </li>
+</ul>

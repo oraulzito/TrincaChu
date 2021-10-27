@@ -1,19 +1,19 @@
 <nz-card [nzActions]="[participateWith, participateWithout]"
          [nzExtra]="seeMore"
-         [nzTitle]=eventModel.description class="card-release m-3 border-1">
+         [nzTitle]=barbecue.description class="card-release m-3 border-1">
   <div nz-row>
     <div nz-col nzSm="24">
-      <nz-card-meta nzDescription="{{eventModel.whenWillHappen | date: 'dd/MM/yyyy, h:mm a'}}"
+      <nz-card-meta nzDescription="{{barbecue.whenWillHappen | date: 'dd/MM/yyyy, h:mm a'}}"
                     nzTitle="Quando?"></nz-card-meta>
     </div>
     <hr class="text-black w-100">
     <div nz-col nzSm="24">
-      <nz-card-meta nzDescription="{{eventModel.confirmPresenceUntilDateTime | date: 'dd/MM/yyyy, h:mm a'}}"
+      <nz-card-meta nzDescription="{{barbecue.confirmPresenceUntilDateTime | date: 'dd/MM/yyyy, h:mm a'}}"
                     nzTitle="Confirme sua presença até:"></nz-card-meta>
     </div>
     <hr class="text-black w-100">
     <div nz-col nzSm="24">
-      <nz-card-meta nzDescription="{{eventModel.whereItWillHappen}}"
+      <nz-card-meta nzDescription="{{barbecue.whereItWillHappen}}"
                     nzTitle="Onde?"></nz-card-meta>
     </div>
     <hr class="text-black w-100">
@@ -23,22 +23,22 @@
     </div>
     <div class="text-center" nz-col nzSm="24">
       <span class="font-weight-light">
-        Já foram arrecadados {{eventModel.totalCollected | currency:'BRL'}} de {{eventModel.totalValue| currency:'BRL'}}
+        Já foram arrecadados {{barbecue.totalCollected | currency:'BRL'}} de {{barbecue.totalValue| currency:'BRL'}}
       </span>
     </div>
     <hr class="text-black w-100">
     <div nz-col nzSm="24">
-      <small class="text-centere">{{eventModel.attendeeTotal}} pessoas já confirmaram presença.</small>
+      <small class="text-centere">{{barbecue.attendeeTotal}} pessoas já confirmaram presença.</small>
     </div>
   </div>
 </nz-card>
 
 <ng-template #seeMore>
-  <button (click)="showEdit()" class="border-0" nz-button *ngIf="eventModel.attendeesAdminIds.includes(user.id)">
+  <button (click)="showEdit()" class="border-0" nz-button *ngIf="barbecue.attendeesAdminIds.includes(user.id)">
     <i nz-icon nzTheme="outline" nzType="edit"></i>
   </button>
 
-  <button (click)="remove(eventModel.id)" class="border-0" nz-button *ngIf="eventModel.attendeesAdminIds.includes(user.id)">
+  <button (click)="remove(barbecue.id)" class="border-0" nz-button *ngIf="barbecue.attendeesAdminIds.includes(user.id)">
     <i nz-icon nzTheme="outline" nzType="delete"></i>
   </button>
 
@@ -60,8 +60,8 @@
   </button>
 </ng-template>
 <ng-template [ngIf]="isVisibleEdit">
-  <app-item-edit (savedEdit)="showEdit()" [isVisible]="isVisibleEdit" [item]="eventModel"></app-item-edit>
+  <app-barbecue-edit (savedEdit)="showEdit()" [isVisible]="isVisibleEdit" [barbecueEdit]="barbecue"></app-barbecue-edit>
 </ng-template>
 <ng-template [ngIf]="isVisibleDetails">
-  <app-item-details (savedDetails)="showDetails()" [id]="eventModel.id" [isVisible]="isVisibleDetails"></app-item-details>
+  <app-barbecue-details (savedDetails)="showDetails()" [id]="barbecue.id" [isVisible]="isVisibleDetails"></app-barbecue-details>
 </ng-template>

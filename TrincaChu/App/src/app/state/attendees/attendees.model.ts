@@ -6,6 +6,8 @@ export interface Attendees {
   lastName: string;
   email: string;
   paid: boolean;
+  admin: boolean;
+  consumeAlcoholicDrink: boolean;
 }
 
 export function createAttendees(params: Partial<Attendees>) {

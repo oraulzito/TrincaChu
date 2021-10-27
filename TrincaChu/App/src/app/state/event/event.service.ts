@@ -111,7 +111,7 @@ export class EventService {
 
     return this.http.put('/api/event/' + id, body, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
-      tap(entities => this.eventStore.update(id, body)),
+      tap(entities => this.get(id).subscribe()),
       catchError(error => throwError(error))
     );
   }

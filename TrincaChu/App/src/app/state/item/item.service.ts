@@ -46,7 +46,7 @@ export class ItemService {
 
     return this.http.post('/api/item', body, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
-      tap(entities => this.itemStore.add(entities)),
+      tap(entities => this.getEventItens(form.eventId).subscribe()),
       catchError(error => throwError(error))
     );
   }
@@ -71,7 +71,7 @@ export class ItemService {
   remove(id: ID) {
     return this.http.delete<number>('/api/item/' + id, this.uiService.httpHeaderOptions()).pipe(
       shareReplay(1),
-      tap(entities => entities === 1 ? this.itemStore.remove(id) : this.itemStore.setError("Not removed")),
+      tap(entities => this.itemStore.remove(id)),
       catchError(error => throwError(error))
     );
   }

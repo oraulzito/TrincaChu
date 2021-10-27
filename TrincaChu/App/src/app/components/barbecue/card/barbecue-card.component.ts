@@ -9,12 +9,12 @@ import {EventService} from "../../../state/event/event.service";
 
 
 @Component({
-  selector: 'app-item-card',
-  templateUrl: './item-card.component.html',
-  styleUrls: ['./item-card.component.css']
+  selector: 'app-barbecue-card',
+  templateUrl: './barbecue-card.component.html',
+  styleUrls: ['./barbecue-card.component.css']
 })
-export class ItemCardComponent implements OnInit {
-  @Input() eventModel: EventModel;
+export class BarbecueCardComponent implements OnInit {
+  @Input() barbecue: EventModel;
   successPercentage: number;
   eventAttendeeForm: FormGroup;
   isVisibleDetails = false;
@@ -32,7 +32,7 @@ export class ItemCardComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.successPercentage = (this.eventModel.totalCollected * 100) / this.eventModel.totalValue
+    this.successPercentage = (this.barbecue.totalCollected * 100) / this.barbecue.totalValue
   }
 
   remove(eventId) {
@@ -49,7 +49,7 @@ export class ItemCardComponent implements OnInit {
 
   participateWithoutAlcoholicDrinks() {
     this.eventAttendeeForm = this.fb.group({
-      eventId: [this.eventModel.id, [Validators.required]],
+      eventId: [this.barbecue.id, [Validators.required]],
       attendeeId: [this.userQuery.getValue().id, [Validators.required]],
       admin: [false, [Validators.required]],
       paid: [true, [Validators.required]],
@@ -61,7 +61,7 @@ export class ItemCardComponent implements OnInit {
 
   participateWithAlcoholicDrinks() {
     this.eventAttendeeForm = this.fb.group({
-      eventId: [this.eventModel.id, [Validators.required]],
+      eventId: [this.barbecue.id, [Validators.required]],
       attendeeId: [this.userQuery.getValue().id, [Validators.required]],
       admin: [false, [Validators.required]],
       paid: [true, [Validators.required]],
